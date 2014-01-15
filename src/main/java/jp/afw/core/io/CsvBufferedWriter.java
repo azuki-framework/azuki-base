@@ -12,7 +12,9 @@ import java.util.List;
 /**
  * このクラスは、CSVファイルを書き出すライタークラスです。
  * 
- * @author N.Kawakita
+ * @since 1.0.0
+ * @version 1.0.0 2013/07/02
+ * @author Kawakicchi
  * 
  */
 public class CsvBufferedWriter extends BufferedWriter {

@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 
 	<name>azuki-base</name>
-	<url>http://maven.apache.org</url>
+	<url>https://github.com/azuki-framework/azuki-base</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
