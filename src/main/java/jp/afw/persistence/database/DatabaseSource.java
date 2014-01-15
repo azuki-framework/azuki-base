@@ -5,15 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import javax.sql.DataSource;
-
 import jp.afw.persistence.database.entity.DatabaseConnectionEntity;
 
-import org.apache.commons.dbcp.ConnectionFactory;
-import org.apache.commons.dbcp.DriverManagerConnectionFactory;
-import org.apache.commons.dbcp.PoolableConnectionFactory;
-import org.apache.commons.dbcp.PoolingDataSource;
+import org.apache.commons.pool.BasePoolableObjectFactory;
 import org.apache.commons.pool.ObjectPool;
+import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.commons.pool.impl.StackObjectPool;
 
 /**
@@ -26,15 +22,40 @@ import org.apache.commons.pool.impl.StackObjectPool;
  */
 public final class DatabaseSource {
 
+	public class SimpleConnectionFactory extends BasePoolableObjectFactory<Connection> {
+		private String url;
+		private String user;
+		private String password;
+
+		/**
+		 * このクラスのインスタンスを生成します。
+		 * 
+		 * @param aUrl データベース接続のためのURL。
+		 * @param aUser データベース接続のためのユーザ名。
+		 * @param aPassword データベース接続のためのパスワード。
+		 */
+		public SimpleConnectionFactory(final String aUrl, final String aUser, final String aPassword) {
+			url = aUrl;
+			user = aUser;
+			password = aPassword;
+		}
+
+		/**
+		 * java.sql.Connectionオブジェクトを生成します。
+		 * 
+		 * @return 生成したオブジェクト。
+		 */
+		public Connection makeObject() throws Exception {
+			return DriverManager.getConnection(url, user, password);
+		}
+	}
+
 	/**
 	 * Connection entity
 	 */
 	private DatabaseConnectionEntity entity;
 
-	/**
-	 * Datasource
-	 */
-	private DataSource ds;
+	private ObjectPool<Connection> pool;
 
 	/**
 	 * コンストラクタ
@@ -95,12 +116,8 @@ public final class DatabaseSource {
 	private void pooling() throws ClassNotFoundException {
 		Class.forName(entity.getDriver());
 
-		@SuppressWarnings("deprecation")
-		ObjectPool pool = new StackObjectPool();
-
-		ConnectionFactory conFactory = new DriverManagerConnectionFactory(entity.getUri(), entity.getUser(), entity.getPassword());
-		new PoolableConnectionFactory(conFactory, pool, null, null, false, true);
-		ds = new PoolingDataSource(pool);
+		PoolableObjectFactory<Connection> factory = new SimpleConnectionFactory(entity.getUri(), entity.getUser(), entity.getPassword());
+		pool = new StackObjectPool<Connection>(factory);
 	}
 
 	/**
@@ -116,16 +133,20 @@ public final class DatabaseSource {
 	/**
 	 * コネクションを取得します。
 	 * 
-	 * @param pool プールフラグ
+	 * @param aPool プールフラグ
 	 * @return コネクション
 	 * @throws SQLException SQL例外が発生した場合
 	 */
-	public DatabaseConnection getConnection(final boolean pool) throws SQLException {
+	public DatabaseConnection getConnection(final boolean aPool) throws SQLException {
 		Connection con = null;
-		if (pool) {
-			con = ds.getConnection();
-		} else {
-			con = DriverManager.getConnection(entity.getUri(), entity.getUser(), entity.getPassword());
+		try {
+			if (aPool) {
+				con = pool.borrowObject();
+			} else {
+				con = DriverManager.getConnection(entity.getUri(), entity.getUser(), entity.getPassword());
+			}
+		} catch (Exception ex) {
+			throw new SQLException(ex);
 		}
 		return new DatabaseConnection(con);
 	}
@@ -147,14 +168,18 @@ public final class DatabaseSource {
 	 * @param pool プールフラグ
 	 * @throws SQLException SQL例外が発生した場合
 	 */
-	public void returnConnection(final DatabaseConnection connection, final boolean pool) throws SQLException {
+	public void returnConnection(final DatabaseConnection connection, final boolean aPool) throws SQLException {
 		Connection con = connection.getConnection();
-		if (null != con) {
-			if (pool) {
-				con.close();
-			} else {
-				con.close();
+		try {
+			if (null != con) {
+				if (aPool) {
+					pool.returnObject(con);
+				} else {
+					con.close();
+				}
 			}
+		} catch (Exception ex) {
+			throw new SQLException(ex);
 		}
 	}
 }
