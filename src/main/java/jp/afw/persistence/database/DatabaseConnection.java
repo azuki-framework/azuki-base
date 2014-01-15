@@ -1,0 +1,1 @@
+package jp.afw.persistence.database;import java.sql.Connection;public class DatabaseConnection {	private Connection connection;	public DatabaseConnection(final Connection aConnection) {		connection = aConnection;	}	public Connection getConnection() {		return connection;	}}
