@@ -138,10 +138,10 @@ public final class PluginManager extends AbstractManager {
 			List<PluginXmlEntity> pluginList;
 			try {
 				Digester digester = new Digester();
-				digester.addObjectCreate("azuki/plugin-list", ArrayList.class);
-				digester.addObjectCreate("azuki/plugin-list/plugin", PluginXmlEntity.class);
-				digester.addSetProperties("azuki/plugin-list/plugin");
-				digester.addSetNext("azuki/plugin-list/plugin", "add");
+				digester.addObjectCreate("azuki/plugins", ArrayList.class);
+				digester.addObjectCreate("azuki/plugins/plugin", PluginXmlEntity.class);
+				digester.addSetProperties("azuki/plugins/plugin");
+				digester.addSetNext("azuki/plugins/plugin", "add");
 				pluginList = digester.parse(aStream);
 			} catch (SAXException ex) {
 				error(ex);
@@ -152,16 +152,18 @@ public final class PluginManager extends AbstractManager {
 			}
 
 			try {
-				for (int i = 0; i < pluginList.size(); i++) {
-					PluginXmlEntity p = pluginList.get(i);
-					Class<Plugin> clazz = (Class<Plugin>) Class.forName(p.getPlugin());
-					Plugin plugin = clazz.newInstance();
+				if (null != pluginList) {
+					for (int i = 0; i < pluginList.size(); i++) {
+						PluginXmlEntity p = pluginList.get(i);
+						Class<Plugin> clazz = (Class<Plugin>) Class.forName(p.getPlugin());
+						Plugin plugin = clazz.newInstance();
 
-					PluginEntity pe = new PluginEntity();
-					pe.name = p.getName();
-					pe.config = p.getConfig();
-					pe.plugin = plugin;
-					plugins.add(pe);
+						PluginEntity pe = new PluginEntity();
+						pe.name = p.getName();
+						pe.config = p.getConfig();
+						pe.plugin = plugin;
+						plugins.add(pe);
+					}
 				}
 			} catch (ClassNotFoundException ex) {
 				error(ex);
