@@ -26,7 +26,17 @@ public class UUIDUtility {
 	 * 
 	 * @return UUID
 	 */
-	public static String generate() {
+	public static String generateToString() {
+		String s = UUID.randomUUID().toString();
+		return s;
+	}
+
+	/**
+	 * UUIDを生成する。
+	 * 
+	 * @return UUID
+	 */
+	public static String generateToShortString() {
 		String s = UUID.randomUUID().toString();
 		return s.substring(0, 8) + s.substring(9, 13) + s.substring(14, 18) + s.substring(19, 23) + s.substring(24, 36);
 	}

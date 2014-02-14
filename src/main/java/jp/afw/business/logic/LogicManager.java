@@ -138,10 +138,10 @@ public final class LogicManager extends AbstractManager {
 		List<LogicEntity> logicList = null;
 		try {
 			Digester digester = new Digester();
-			digester.addObjectCreate("azuki/logic-list", ArrayList.class);
-			digester.addObjectCreate("azuki/logic-list/logic", LogicEntity.class);
-			digester.addSetProperties("azuki/logic-list/logic");
-			digester.addSetNext("azuki/logic-list/logic", "add");
+			digester.addObjectCreate("azuki/logics", ArrayList.class);
+			digester.addObjectCreate("azuki/logics/logic", LogicEntity.class);
+			digester.addSetProperties("azuki/logics/logic");
+			digester.addSetNext("azuki/logics/logic", "add");
 			logicList = digester.parse(aStream);
 		} catch (SAXException ex) {
 			error(ex);
@@ -160,6 +160,7 @@ public final class LogicManager extends AbstractManager {
 
 		for (int i = 0; i < logicList.size(); i++) {
 			LogicEntity logic = logicList.get(i);
+			info("Logic loading.[" + logic.name + "]");
 			if (m.containsKey(logic.getName())) {
 				throw new BusinessServiceException("Duplicate logic name.[" + logic.getName() + "]");
 			} else {

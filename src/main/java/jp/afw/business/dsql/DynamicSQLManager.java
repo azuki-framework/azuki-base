@@ -127,10 +127,10 @@ public final class DynamicSQLManager extends AbstractManager {
 		List<DynamicSQLEntity> dsqls = null;
 		try {
 			Digester digester = new Digester();
-			digester.addObjectCreate("azuki/dynamicSQL-list", ArrayList.class);
-			digester.addObjectCreate("azuki/dynamicSQL-list/dynamicSQL", DynamicSQLEntity.class);
-			digester.addSetProperties("azuki/dynamicSQL-list/dynamicSQL");
-			digester.addSetNext("azuki/dynamicSQL-list/dynamicSQL", "add");
+			digester.addObjectCreate("azuki/dynamicSQLs", ArrayList.class);
+			digester.addObjectCreate("azuki/dynamicSQLs/dynamicSQL", DynamicSQLEntity.class);
+			digester.addSetProperties("azuki/dynamicSQLs/dynamicSQL");
+			digester.addSetNext("azuki/dynamicSQLs/dynamicSQL", "add");
 			dsqls = digester.parse(aStream);
 		} catch (SAXException ex) {
 			error(ex);
@@ -141,6 +141,7 @@ public final class DynamicSQLManager extends AbstractManager {
 		}
 
 		for (DynamicSQLEntity entity : dsqls) {
+			info("DynamicSQL loading.[" + entity.getName() + "]");
 			if (dynamicSQLs.containsKey(entity.getName())) {
 				error("Duplicate dynamicSQL name.[" + entity.getName() + "]");
 				continue;

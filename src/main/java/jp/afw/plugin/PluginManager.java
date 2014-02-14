@@ -155,6 +155,7 @@ public final class PluginManager extends AbstractManager {
 				if (null != pluginList) {
 					for (int i = 0; i < pluginList.size(); i++) {
 						PluginXmlEntity p = pluginList.get(i);
+						info("Plugin loading.[" + p.getName() +"]");
 						Class<Plugin> clazz = (Class<Plugin>) Class.forName(p.getPlugin());
 						Plugin plugin = clazz.newInstance();
 
