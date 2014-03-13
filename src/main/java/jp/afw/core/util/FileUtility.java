@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * このクラスは、ファイル操作をまとめたユーティリティクラスです。
@@ -88,7 +91,7 @@ public final class FileUtility {
 	 * 
 	 * @param aRoot 削除対象
 	 */
-	public static final void remove(final String aRoot) {
+	public static void remove(final String aRoot) {
 		remove(new File(aRoot));
 	}
 
@@ -100,7 +103,7 @@ public final class FileUtility {
 	 * 
 	 * @param aRoot 削除対象
 	 */
-	public static final void remove(final File aRoot) {
+	public static void remove(final File aRoot) {
 		if (aRoot == null || !aRoot.exists()) {
 			return;
 		}
@@ -116,6 +119,64 @@ public final class FileUtility {
 			if (aRoot.exists() && !aRoot.delete()) {
 				aRoot.deleteOnExit();
 			}
+		}
+	}
+
+	/**
+	 * 指定されたディレクトリ配下のファイルを再帰的に取得する。
+	 * 
+	 * @param aDirectory ディレクトリ
+	 * @return ファイル群
+	 */
+	public static final List<File> listFiles(final String aDirectory) {
+		return listFiles(aDirectory, (Pattern) null);
+	}
+
+	/**
+	 * 指定されたディレクトリ配下のファイルを再帰的にパターンにマッチするもののみ取得する。
+	 * 
+	 * @param aDirectory ディレクトリ
+	 * @param aPattern パターン
+	 * @return ファイル群
+	 */
+	public static final List<File> listFiles(final String aDirectory, final String aPattern) {
+		return listFiles(aDirectory, Pattern.compile(aPattern));
+	}
+
+	/**
+	 * 指定されたディレクトリ配下のファイルを再帰的にパターンにマッチするもののみ取得する。
+	 * 
+	 * @param aDirectory ディレクトリ
+	 * @param aPattern パターン
+	 * @return ファイル群
+	 */
+	public static final List<File> listFiles(final String aDirectory, final Pattern aPattern) {
+		List<File> files = new ArrayList<File>();
+		File dir = new File(aDirectory);
+		readDir(aDirectory, dir, aPattern, files);
+		return files;
+	}
+
+	private static void readDir(final String aTargetBaseDir, final File aDir, final Pattern aPattern, final List<File> aFiles) {
+		File[] files = aDir.listFiles();
+		if (files == null) {
+			return;
+		}
+		for (File file : files) {
+			if (!file.exists()) {
+				continue;
+			} else if (file.isDirectory()) {
+				readDir(aTargetBaseDir, file, aPattern, aFiles);
+			} else if (file.isFile())
+				readFile(aTargetBaseDir, file, aPattern, aFiles);
+		}
+	}
+
+	private static void readFile(final String aTargetBaseDir, final File aFile, final Pattern aPattern, final List<File> aFiles) {
+		String path = aFile.getAbsolutePath();
+		path = path.substring(aTargetBaseDir.length());
+		if (null == aPattern || aPattern.matcher(path).matches()) {
+			aFiles.add(aFile);
 		}
 	}
 }
