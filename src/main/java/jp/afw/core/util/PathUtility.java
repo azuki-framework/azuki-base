@@ -1,5 +1,7 @@
 package jp.afw.core.util;
 
+import java.io.File;
+
 /**
  * このクラスは、パス操作をまとめたユーティリティクラスです。
  * 
@@ -26,24 +28,19 @@ public class PathUtility {
 	 * @return パス
 	 */
 	public static String cat(final String... strs) {
+
 		StringBuilder s = new StringBuilder();
 		for (int i = 0; i < strs.length; i++) {
 			if (0 < i) {
-				s.append("\\");
+				s.append(File.separator);
 			}
 			if (0 == i) {
-				s.append(trimR(replace(strs[i]), "\\"));
+				s.append(trimR(strs[i], File.separator));
 			} else {
-				s.append(trim(replace(strs[i]), "\\"));
+				s.append(trim(strs[i], File.separator));
 			}
 		}
 		return s.toString();
-	}
-
-	private static String replace(final String aString) {
-		String buf = aString;
-		buf = buf.replaceAll("\\\\/", "\\");
-		return buf;
 	}
 
 	private static String trim(final String aString, final String aTrimword) {
