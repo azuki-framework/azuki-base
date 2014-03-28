@@ -6,7 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -17,6 +22,21 @@ import java.util.regex.Pattern;
  * @author Kawakicchi
  */
 public final class FileUtility {
+
+	public enum SortMode {
+		// 列挙子の定義は、コンストラクターに合わせた引数を持たせる。
+		String(0), Integer(1);
+
+		private int value;
+
+		private SortMode(int n) {
+			this.value = n;
+		}
+
+		public int getValue() {
+			return this.value;
+		}
+	}
 
 	/**
 	 * コンストラクタ
@@ -123,7 +143,97 @@ public final class FileUtility {
 	}
 
 	/**
-	 * 指定されたディレクトリ配下のファイルを再帰的に取得する。
+	 * ファイルリストをファイルパスがパターンで同一のものでグルーピングする。
+	 * <p>
+	 * <ul>
+	 * <li>同一ディレクトリ - "^(.*)[0-9]{3}\.csv$"</li>
+	 * </ul>
+	 * </p>
+	 * 
+	 * @param aFiles ファイル一覧
+	 * @param aPattern パターン
+	 * @return
+	 */
+	public static final Map<String, List<File>> groupFiles(final List<File> aFiles, final Pattern aPattern) {
+		Map<String, List<File>> groups = new HashMap<String, List<File>>();
+		for (File file : aFiles) {
+			String path = file.getAbsolutePath();
+			String key = extractMatchString(path, aPattern);
+
+			List<File> fs = null;
+			if (groups.containsKey(key)) {
+				fs = groups.get(key);
+			} else {
+				fs = new ArrayList<File>();
+				groups.put(key, fs);
+			}
+			fs.add(file);
+		}
+		return groups;
+	}
+
+	/**
+	 * ファイルリストをファイルパスがパターンでソートする。
+	 * <p>
+	 * <ul>
+	 * <li>"^.*([0-9]{3})\.csv$"</li>
+	 * </ul>
+	 * </p>
+	 * 
+	 * @param aFiles
+	 * @param aPattern
+	 */
+	public static final void sortFiles(final List<File> aFiles, final Pattern aPattern) {
+		sortFiles(aFiles, aPattern, SortMode.String);
+	}
+
+	/**
+	 * ファイルリストをファイルパスがパターンでソートする。
+	 * <p>
+	 * <ul>
+	 * <li>"^.*([0-9]{3})\.csv$"</li>
+	 * </ul>
+	 * </p>
+	 * 
+	 * @param aFiles
+	 * @param aPattern
+	 */
+	public static final void sortFiles(final List<File> aFiles, final Pattern aPattern, final SortMode aMode) {
+		switch (aMode) {
+		case Integer:
+			Collections.sort(aFiles, new Comparator<File>() {
+				public int compare(File obj1, File obj2) {
+					String val1 = extractMatchString(obj1.getAbsolutePath(), aPattern);
+					String val2 = extractMatchString(obj2.getAbsolutePath(), aPattern);
+					int int1 = Integer.parseInt(val1);
+					int int2 = Integer.parseInt(val2);
+					return int1 - int2;
+				}
+			});
+			break;
+		default:
+			Collections.sort(aFiles, new Comparator<File>() {
+				public int compare(File obj1, File obj2) {
+					String val1 = extractMatchString(obj1.getAbsolutePath(), aPattern);
+					String val2 = extractMatchString(obj2.getAbsolutePath(), aPattern);
+					return val1.compareTo(val2);
+				}
+			});
+			break;
+		}
+	}
+
+	private static String extractMatchString(final String aTarget, final Pattern aPattern) {
+		Matcher matcher = aPattern.matcher(aTarget);
+		if (matcher.find()) {
+			return matcher.group(1);
+		} else {
+			throw new IllegalStateException("No match found.");
+		}
+	}
+
+	/**
+	 * 指定されたディレクトリ配下のファイルを再帰的に全て取得する。
 	 * 
 	 * @param aDirectory ディレクトリ
 	 * @return ファイル群
@@ -133,7 +243,14 @@ public final class FileUtility {
 	}
 
 	/**
-	 * 指定されたディレクトリ配下のファイルを再帰的にパターンにマッチするもののみ取得する。
+	 * 指定されたディレクトリ配下のファイルを再帰的にファイルパスがパターンにマッチするもののみ取得する。
+	 * <p>
+	 * パターン例
+	 * <ul>
+	 * <li>CSVファイル - "^.*\.(csv|CSV)$"</li>
+	 * <li>CSVファイルで末3ケタが数値のファイル - "^.*[0-9]{3}\.csv$"</li>
+	 * </ul>
+	 * </p>
 	 * 
 	 * @param aDirectory ディレクトリ
 	 * @param aPattern パターン
@@ -144,7 +261,13 @@ public final class FileUtility {
 	}
 
 	/**
-	 * 指定されたディレクトリ配下のファイルを再帰的にパターンにマッチするもののみ取得する。
+	 * 指定されたディレクトリ配下のファイルを再帰的にファイルパスがパターンにマッチするもののみ取得する。
+	 * <p>
+	 * パターン例
+	 * <ul>
+	 * <li>CSVファイル - "^.*\.(csv|CSV)$"</li>
+	 * </ul>
+	 * </p>
 	 * 
 	 * @param aDirectory ディレクトリ
 	 * @param aPattern パターン
@@ -153,11 +276,11 @@ public final class FileUtility {
 	public static final List<File> listFiles(final String aDirectory, final Pattern aPattern) {
 		List<File> files = new ArrayList<File>();
 		File dir = new File(aDirectory);
-		readDir(aDirectory, dir, aPattern, files);
+		readDir(dir, aPattern, files);
 		return files;
 	}
 
-	private static void readDir(final String aTargetBaseDir, final File aDir, final Pattern aPattern, final List<File> aFiles) {
+	private static void readDir(final File aDir, final Pattern aPattern, final List<File> aFiles) {
 		File[] files = aDir.listFiles();
 		if (files == null) {
 			return;
@@ -166,15 +289,14 @@ public final class FileUtility {
 			if (!file.exists()) {
 				continue;
 			} else if (file.isDirectory()) {
-				readDir(aTargetBaseDir, file, aPattern, aFiles);
+				readDir(file, aPattern, aFiles);
 			} else if (file.isFile())
-				readFile(aTargetBaseDir, file, aPattern, aFiles);
+				readFile(file, aPattern, aFiles);
 		}
 	}
 
-	private static void readFile(final String aTargetBaseDir, final File aFile, final Pattern aPattern, final List<File> aFiles) {
+	private static void readFile(final File aFile, final Pattern aPattern, final List<File> aFiles) {
 		String path = aFile.getAbsolutePath();
-		path = path.substring(aTargetBaseDir.length());
 		if (null == aPattern || aPattern.matcher(path).matches()) {
 			aFiles.add(aFile);
 		}
