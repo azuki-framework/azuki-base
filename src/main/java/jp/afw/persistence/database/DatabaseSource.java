@@ -40,8 +40,11 @@ import org.apache.commons.pool.impl.StackObjectPool;
 public final class DatabaseSource {
 
 	public class SimpleConnectionFactory extends BasePoolableObjectFactory<Connection> {
+		/** URI */
 		private String url;
+		/** ユーザ */
 		private String user;
+		/** パスワード */
 		private String password;
 
 		/**

@@ -22,19 +22,11 @@
 	<packaging>jar</packaging>
 
 	<name>azuki-base</name>
+	<description>Azuki Framework base library</description>
 	<url>https://github.com/azuki-framework/azuki-base</url>
-
-	<distributionManagement>
-		<repository>
-			<id>internal.repo</id>
-			<name>Temporary Staging Repository</name>
-			<url>file://${project.build.directory}/maven-repository</url>
-		</repository>
-	</distributionManagement>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<github.global.server>azuki-framework.github</github.global.server>
 	</properties>
 
 	<dependencies>
@@ -62,7 +54,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -78,32 +70,6 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>com.github.github</groupId>
-				<artifactId>site-maven-plugin</artifactId>
-				<version>0.8</version>
-				<configuration>
-					<message>Maven artifacts for ${project.version}</message>
-					<noJekyll>true</noJekyll>
-					<outputDirectory>${project.build.directory}/maven-repository</outputDirectory>
-					<branch>refs/heads/maven-repository</branch>
-					<includes>
-						<include>**/*</include>
-					</includes>
-					<repositoryName>azuki-base</repositoryName>
-					<repositoryOwner>azuki-framework</repositoryOwner>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>site</goal>
-						</goals>
-						<phase>deploy</phase>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
-	
 </project>
