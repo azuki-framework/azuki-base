@@ -51,21 +51,40 @@ public class PathUtility {
 			if (0 < i) {
 				s.append(File.separator);
 			}
+
+			String str = strs[i];
+			str = str.replaceAll("/", File.separator);
+			str = str.replaceAll("\\\\", File.separator);
 			if (0 == i) {
-				s.append(trimR(strs[i], File.separator));
+				str = trimR(str, File.separator);
 			} else {
-				s.append(trim(strs[i], File.separator));
+				str = trim(str, File.separator);
 			}
+			s.append(str);
 		}
 		return s.toString();
 	}
 
+	/**
+	 * 文字列の前後から指定の文字列を除去する。
+	 * 
+	 * @param aString 対象文字列
+	 * @param aTrimword 除去文字列
+	 * @return 除去結果文字列
+	 */
 	private static String trim(final String aString, final String aTrimword) {
 		String buf = trimL(aString, aTrimword);
 		buf = trimR(buf, aTrimword);
 		return buf;
 	}
 
+	/**
+	 * 文字列の接頭から指定の文字列を除去する。
+	 * 
+	 * @param aString 対象文字列
+	 * @param aTrimword 除去文字列
+	 * @return 除去結果文字列
+	 */
 	private static String trimL(final String aString, final String aTrimword) {
 		String buf = aString;
 		while (buf.startsWith(aTrimword)) {
@@ -74,6 +93,13 @@ public class PathUtility {
 		return buf;
 	}
 
+	/**
+	 * 文字列の接尾から指定の文字列を除去する。
+	 * 
+	 * @param aString 対象文字列
+	 * @param aTrimword 除去文字列
+	 * @return 除去結果文字列
+	 */
 	private static String trimR(final String aString, final String aTrimword) {
 		String buf = aString;
 		while (buf.endsWith(aTrimword)) {

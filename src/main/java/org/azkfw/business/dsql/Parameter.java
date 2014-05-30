@@ -91,6 +91,13 @@ public final class Parameter {
 	}
 
 	/**
+	 * パラメータをクリアする。
+	 */
+	public void clear() {
+		params.clear();
+	}
+
+	/**
 	 * パラメータのキーセットを取得する。
 	 * 
 	 * @return キーセット

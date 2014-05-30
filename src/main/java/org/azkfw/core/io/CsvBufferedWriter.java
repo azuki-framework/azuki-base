@@ -18,12 +18,14 @@
 package org.azkfw.core.io;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.List;
 
 /**
@@ -32,9 +34,13 @@ import java.util.List;
  * @since 1.0.0
  * @version 1.0.0 2013/07/02
  * @author Kawakicchi
- * 
  */
 public class CsvBufferedWriter extends BufferedWriter {
+
+	/**
+	 * 改行コード
+	 */
+	private String lineSeparator;
 
 	/**
 	 * コンストラクタ
@@ -43,6 +49,63 @@ public class CsvBufferedWriter extends BufferedWriter {
 	 */
 	public CsvBufferedWriter(final Writer aWriter) {
 		super(aWriter);
+		setup();
+	}
+
+	/**
+	 * コンストラクタ
+	 * <p>
+	 * システムデフォルトの文字コードで書き出す。
+	 * </p>
+	 * 
+	 * @param aFile ファイル
+	 * @throws FileNotFoundException {@link FileNotFoundException}
+	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
+	 */
+	public CsvBufferedWriter(final String aFile) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new OutputStreamWriter(new FileOutputStream(aFile), System.getProperty("file.encoding")));
+		setup();
+	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param aFile ファイル
+	 * @param aCharset 文字エンコーディング
+	 * @throws FileNotFoundException {@link FileNotFoundException}
+	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
+	 */
+	public CsvBufferedWriter(final File aFile, final String aCharset) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new OutputStreamWriter(new FileOutputStream(aFile), aCharset));
+		setup();
+	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param aFile ファイル
+	 * @param aCharset 文字エンコーディング
+	 * @throws FileNotFoundException {@link FileNotFoundException}
+	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
+	 */
+	public CsvBufferedWriter(final File aFile, final Charset aCharset) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new OutputStreamWriter(new FileOutputStream(aFile), aCharset));
+		setup();
+	}
+
+	/**
+	 * コンストラクタ
+	 * <p>
+	 * システムデフォルトの文字コードで書き出す。
+	 * </p>
+	 * 
+	 * @param aFile ファイル
+	 * @throws FileNotFoundException {@link FileNotFoundException}
+	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
+	 */
+	public CsvBufferedWriter(final File aFile) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new OutputStreamWriter(new FileOutputStream(aFile), System.getProperty("file.encoding")));
+		setup();
 	}
 
 	/**
@@ -55,6 +118,33 @@ public class CsvBufferedWriter extends BufferedWriter {
 	 */
 	public CsvBufferedWriter(final String aFile, final String aCharset) throws FileNotFoundException, UnsupportedEncodingException {
 		super(new OutputStreamWriter(new FileOutputStream(aFile), aCharset));
+		setup();
+	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param aFile ファイル
+	 * @param aCharset 文字エンコーディング
+	 * @throws FileNotFoundException {@link FileNotFoundException}
+	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
+	 */
+	public CsvBufferedWriter(final String aFile, final Charset aCharset) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new OutputStreamWriter(new FileOutputStream(aFile), aCharset));
+		setup();
+	}
+
+	/**
+	 * 改行コードを設定する。
+	 * 
+	 * @param aLineSeparator 改行コード、<code>null</code>を指定した場合、システムデフォルト改行コードを設定する。
+	 */
+	public void setLineSeparator(final String aLineSeparator) {
+		if (null != aLineSeparator) {
+			lineSeparator = aLineSeparator;
+		} else {
+			lineSeparator = getSystemLineSeparator();
+		}
 	}
 
 	/**
@@ -64,13 +154,16 @@ public class CsvBufferedWriter extends BufferedWriter {
 	 * @throws IOException IO操作時に問題が発生した場合
 	 */
 	public void writeCsvLine(final String... strs) throws IOException {
+		StringBuilder s = new StringBuilder();
 		for (int i = 0; i < strs.length; i++) {
 			if (0 != i) {
-				write(",");
+				s.append(",");
 			}
-			write(toCsvString(strs[i]));
+			s.append(toCsvString(strs[i]));
 		}
-		write("\r\n");
+		s.append(lineSeparator);
+
+		write(s.toString());
 	}
 
 	/**
@@ -80,13 +173,16 @@ public class CsvBufferedWriter extends BufferedWriter {
 	 * @throws IOException IO操作時に問題が発生した場合
 	 */
 	public void writeCsvLine(final List<String> strs) throws IOException {
+		StringBuilder s = new StringBuilder();
 		for (int i = 0; i < strs.size(); i++) {
 			if (0 != i) {
-				write(",");
+				s.append(",");
 			}
-			write(toCsvString(strs.get(i)));
+			s.append(toCsvString(strs.get(i)));
 		}
-		write("\r\n");
+		s.append(lineSeparator);
+
+		write(s.toString());
 	}
 
 	/**
@@ -113,4 +209,23 @@ public class CsvBufferedWriter extends BufferedWriter {
 		}
 		return result;
 	}
+
+	private void setup() {
+		lineSeparator = getSystemLineSeparator();
+	}
+
+	/**
+	 * システムの改行コードを取得する。
+	 * 
+	 * @return 改行コード
+	 */
+	public static String getSystemLineSeparator() {
+		String str = "\n";
+		try {
+			str = System.getProperty("line.separator");
+		} catch (SecurityException ex) {
+		}
+		return str;
+	}
+
 }

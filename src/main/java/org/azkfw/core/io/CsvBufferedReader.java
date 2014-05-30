@@ -18,12 +18,14 @@
 package org.azkfw.core.io;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +37,6 @@ import org.azkfw.core.util.StringUtility;
  * @since 1.0.0
  * @version 1.0.0 2013/07/02
  * @author Kawakicchi
- * 
  */
 public class CsvBufferedReader extends BufferedReader {
 
@@ -50,6 +51,20 @@ public class CsvBufferedReader extends BufferedReader {
 
 	/**
 	 * コンストラクタ
+	 * <p>
+	 * システムデフォルトの文字コードで読み込む。
+	 * </p>
+	 * 
+	 * @param aFile ファイル
+	 * @throws FileNotFoundException {@link FileNotFoundException}
+	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
+	 */
+	public CsvBufferedReader(final String aFile) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new InputStreamReader(new FileInputStream(aFile), System.getProperty("file.encoding")));
+	}
+
+	/**
+	 * コンストラクタ
 	 * 
 	 * @param aFile ファイル
 	 * @param aCharset 文字エンコーディング
@@ -57,6 +72,56 @@ public class CsvBufferedReader extends BufferedReader {
 	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
 	 */
 	public CsvBufferedReader(final String aFile, final String aCharset) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new InputStreamReader(new FileInputStream(aFile), aCharset));
+	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param aFile ファイル
+	 * @param aCharset 文字エンコーディング
+	 * @throws FileNotFoundException {@link FileNotFoundException}
+	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
+	 */
+	public CsvBufferedReader(final String aFile, final Charset aCharset) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new InputStreamReader(new FileInputStream(aFile), aCharset));
+	}
+
+	/**
+	 * コンストラクタ
+	 * <p>
+	 * システムデフォルトの文字コードで読み込む。
+	 * </p>
+	 * 
+	 * @param aFile ファイル
+	 * @throws FileNotFoundException {@link FileNotFoundException}
+	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
+	 */
+	public CsvBufferedReader(final File aFile) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new InputStreamReader(new FileInputStream(aFile), System.getProperty("file.encoding")));
+	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param aFile ファイル
+	 * @param aCharset 文字エンコーディング
+	 * @throws FileNotFoundException {@link FileNotFoundException}
+	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
+	 */
+	public CsvBufferedReader(final File aFile, final String aCharset) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new InputStreamReader(new FileInputStream(aFile), aCharset));
+	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param aFile ファイル
+	 * @param aCharset 文字エンコーディング
+	 * @throws FileNotFoundException {@link FileNotFoundException}
+	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
+	 */
+	public CsvBufferedReader(final File aFile, final Charset aCharset) throws FileNotFoundException, UnsupportedEncodingException {
 		super(new InputStreamReader(new FileInputStream(aFile), aCharset));
 	}
 

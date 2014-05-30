@@ -95,4 +95,11 @@ public final class Group {
 	public boolean is(final String aGroup) {
 		return groups.contains(aGroup);
 	}
+
+	/**
+	 * グループをクリアする。
+	 */
+	public void clear() {
+		groups.clear();
+	}
 }
