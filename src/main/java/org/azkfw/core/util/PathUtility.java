@@ -54,7 +54,7 @@ public class PathUtility {
 
 			String str = strs[i];
 			str = str.replaceAll("/", File.separator);
-			str = str.replaceAll("\\\\", File.separator);
+			str = str.replace("\\", File.separator);
 			if (0 == i) {
 				str = trimR(str, File.separator);
 			} else {
