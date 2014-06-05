@@ -31,7 +31,7 @@ import org.azkfw.persistence.context.Context;
  * このクラスは、プロパティ管理を行うマネージャークラスです。
  * 
  * @since 1.0.0
- * @version 1.0.0 2013/02/13
+ * @version 1.0.1 2014/06/05
  * @author Kawakicchi
  */
 public final class PropertyManager extends AbstractManager {
@@ -82,42 +82,43 @@ public final class PropertyManager extends AbstractManager {
 		return properties.get(aClass);
 	}
 
-	private Property doLoad(final Class<?> aClass, final Context aContext) {
+	private synchronized Property doLoad(final Class<?> aClass, final Context aContext) {
 		Property property = null;
-		synchronized (properties) {
+
+		if (properties.containsKey(aClass)) {
 			property = properties.get(aClass);
-			if (null == property) {
-				PropertyFile propertyFile = aClass.getAnnotation(PropertyFile.class);
-				if (null != propertyFile) {
-					String value = propertyFile.value();
-					if (StringUtility.isNotEmpty(value)) {
-						InputStream stream = aContext.getResourceAsStream(value);
-						if (null != stream) {
-							try {
-								Properties p = new Properties();
-								p.load(stream);
-								Map<String, Object> m = new HashMap<String, Object>();
-								for (Object key : p.keySet()) {
-									m.put(key.toString(), p.get(key));
-								}
-								property = new Property(m);
-							} catch (IOException ex) {
-								error(ex);
-								property = new Property();
+		} else {
+			PropertyFile propertyFile = aClass.getAnnotation(PropertyFile.class);
+			if (null != propertyFile) {
+				String value = propertyFile.value();
+				if (StringUtility.isNotEmpty(value)) {
+					InputStream stream = aContext.getResourceAsStream(value);
+					if (null != stream) {
+						try {
+							Properties p = new Properties();
+							p.load(stream);
+							Map<String, Object> m = new HashMap<String, Object>();
+							for (Object key : p.keySet()) {
+								m.put(key.toString(), p.get(key));
 							}
-						} else {
-							error("Not found property file.[" + value + "]");
-							property = new Property();
+							property = Property.Builder.build(m);
+						} catch (IOException ex) {
+							error("Property file read error.[" + value + "]");
+							error(ex);
+							property = Property.Builder.build();
 						}
 					} else {
-						property = new Property();
+						error("Not found property file.[" + value + "]");
+						property = Property.Builder.build();
 					}
 				} else {
-
+					property = Property.Builder.build();
 				}
-				properties.put(aClass, property);
 			}
+
+			properties.put(aClass, property);
 		}
+
 		return property;
 	}
 }

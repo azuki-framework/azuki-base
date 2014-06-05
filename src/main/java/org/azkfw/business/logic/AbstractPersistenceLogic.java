@@ -46,7 +46,7 @@ public abstract class AbstractPersistenceLogic extends AbstractLogic implements 
 	 */
 	public AbstractPersistenceLogic() {
 		super();
-		property = new Property();
+		property = null;
 	}
 
 	/**
@@ -56,7 +56,7 @@ public abstract class AbstractPersistenceLogic extends AbstractLogic implements 
 	 */
 	public AbstractPersistenceLogic(final String aName) {
 		super(aName);
-		property = new Property();
+		property = null;
 	}
 
 	/**
@@ -66,7 +66,7 @@ public abstract class AbstractPersistenceLogic extends AbstractLogic implements 
 	 */
 	public AbstractPersistenceLogic(final Class<?> aClass) {
 		super(aClass);
-		property = new Property();
+		property = null;
 	}
 
 	@Override

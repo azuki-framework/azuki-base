@@ -21,103 +21,59 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * このクラスは、プロパティ情報を保持するクラスです。
+ * このインターフェースは、パラメータ情報を保持する機能を定義したインターフェースです。
  * 
- * @since 1.0.0
- * @version 1.0.0 2013/07/04
+ * @since 1.0.1
+ * @version 1.0.1 2014/06/05
  * @author Kawakicchi
  */
-public final class Parameter {
+public interface Parameter {
 
 	/**
-	 * プロパティ
-	 */
-	private Map<String, Object> properties;
-
-	/**
-	 * コンストラクタ
-	 */
-	public Parameter() {
-		properties = new HashMap<String, Object>();
-	}
-
-	/**
-	 * コンストラクタ
+	 * このクラスは、パラメータ情報の作成を行うクラスです。
 	 * 
-	 * @param aProperties プロパティ情報
+	 * @since 1.0.1
+	 * @version 1.0.1 2014/06/05
+	 * @author Kawakicchi
 	 */
-	public Parameter(final Map<String, Object> aProperties) {
-		properties = new HashMap<String, Object>(aProperties);
-	}
+	public static class Builder {
 
-	/**
-	 * プロパティを取得する。
-	 * <p>
-	 * 値が存在しない場合、<code>null</code>を返す。
-	 * </p>
-	 * 
-	 * @param aKey キー
-	 * @return 値
-	 */
-	public Object get(final String aKey) {
-		return get(aKey, null);
-	}
+		/**
+		 * コンストラクタ
+		 * <p>
+		 * インスタンス化を禁止する。
+		 * </p>
+		 */
+		private Builder() {
 
-	/**
-	 * プロパティを取得する。
-	 * <p>
-	 * 値が存在しない、または<code>null</code>の場合、デフォルト値を返す。
-	 * </p>
-	 * 
-	 * @param aKey キー
-	 * @param aDefault デフォルト値
-	 * @return 値
-	 */
-	public Object get(final String aKey, final Object aDefault) {
-		Object value = aDefault;
-		if (properties.containsKey(aKey)) {
-			if (null != properties.get(aKey)) {
-				value = properties.get(aKey);
-			}
 		}
-		return value;
-	}
 
-	/**
-	 * プロパティを取得する。
-	 * <p>
-	 * 値が存在しない場合、<code>null</code>を返す。
-	 * </p>
-	 * 
-	 * @param aKey キー
-	 * @return 値
-	 */
-	public String getString(final String aKey) {
-		return getString(aKey, null);
-	}
-
-	/**
-	 * プロパティを取得する。
-	 * <p>
-	 * 値が存在しない、または<code>null</code>の場合、デフォルト値を返す。
-	 * </p>
-	 * 
-	 * @param aKey キー
-	 * @param aDefault デフォルト値
-	 * @return 値
-	 */
-	public String getString(final String aKey, final String aDefault) {
-		String value = aDefault;
-		if (properties.containsKey(aKey)) {
-			if (null != properties.get(aKey)) {
-				value = properties.get(aKey).toString();
-			}
+		/**
+		 * パラメータ情報を作成する。
+		 * 
+		 * @return パラメータ情報
+		 */
+		public static Parameter build() {
+			Parameter p;
+			p = new MapParameter();
+			return p;
 		}
-		return value;
+
+		/**
+		 * パラメータ情報を作成する。
+		 * 
+		 * @param aMap マップ情報
+		 * @return パラメータ情報
+		 */
+		public static Parameter build(final Map<String, Object> aMap) {
+			Parameter p;
+			p = new MapParameter(aMap);
+			return p;
+		}
 	}
 
 	/**
-	 * プロパティを取得する。
+	 * パラメータを取得する。
 	 * <p>
 	 * 値が存在しない場合、<code>null</code>を返す。
 	 * </p>
@@ -125,12 +81,10 @@ public final class Parameter {
 	 * @param aKey キー
 	 * @return 値
 	 */
-	public Integer getInteger(final String aKey) {
-		return getInteger(aKey, null);
-	}
+	public Object get(final String aKey);
 
 	/**
-	 * プロパティを取得する。
+	 * パラメータを取得する。
 	 * <p>
 	 * 値が存在しない、または<code>null</code>の場合、デフォルト値を返す。
 	 * </p>
@@ -139,94 +93,223 @@ public final class Parameter {
 	 * @param aDefault デフォルト値
 	 * @return 値
 	 */
-	public Integer getInteger(final String aKey, final Integer aDefault) {
-		Integer value = aDefault;
-		if (properties.containsKey(aKey)) {
-			Object o = properties.get(aKey);
-			if (null != o) {
-				if (o instanceof Integer) {
-					value = (Integer) o;
-				} else if (o instanceof String) {
-					value = Integer.parseInt((String) o);
+	public Object get(final String aKey, final Object aDefault);
+
+	/**
+	 * パラメータを取得する。
+	 * <p>
+	 * 値が存在しない場合、<code>null</code>を返す。
+	 * </p>
+	 * 
+	 * @param aKey キー
+	 * @return 値
+	 */
+	public String getString(final String aKey);
+
+	/**
+	 * パラメータを取得する。
+	 * <p>
+	 * 値が存在しない、または<code>null</code>の場合、デフォルト値を返す。
+	 * </p>
+	 * 
+	 * @param aKey キー
+	 * @param aDefault デフォルト値
+	 * @return 値
+	 */
+	public String getString(final String aKey, final String aDefault);
+
+	/**
+	 * パラメータを取得する。
+	 * <p>
+	 * 値が存在しない場合、<code>null</code>を返す。
+	 * </p>
+	 * 
+	 * @param aKey キー
+	 * @return 値
+	 */
+	public Integer getInteger(final String aKey);
+
+	/**
+	 * パラメータを取得する。
+	 * <p>
+	 * 値が存在しない、または<code>null</code>の場合、デフォルト値を返す。
+	 * </p>
+	 * 
+	 * @param aKey キー
+	 * @param aDefault デフォルト値
+	 * @return 値
+	 */
+	public Integer getInteger(final String aKey, final Integer aDefault);
+
+	/**
+	 * パラメータを取得する。
+	 * <p>
+	 * 値が存在しない場合、<code>null</code>を返す。
+	 * </p>
+	 * 
+	 * @param aKey キー
+	 * @return 値
+	 */
+	public Long getLong(final String aKey);
+
+	/**
+	 * パラメータを取得する。
+	 * <p>
+	 * 値が存在しない、または<code>null</code>の場合、デフォルト値を返す。
+	 * </p>
+	 * 
+	 * @param aKey キー
+	 * @param aDefault デフォルト値
+	 * @return 値
+	 */
+	public Long getLong(final String aKey, final Long aDefault);
+
+	/**
+	 * パラメータを取得する。
+	 * <p>
+	 * 値が存在しない場合、<code>null</code>を返す。
+	 * </p>
+	 * 
+	 * @param aKey キー
+	 * @return 値
+	 */
+	public Boolean getBoolean(final String aKey);
+
+	/**
+	 * パラメータを取得する。
+	 * <p>
+	 * 値が存在しない、または<code>null</code>の場合、デフォルト値を返す。
+	 * </p>
+	 * 
+	 * @param aKey キー
+	 * @param aDefault デフォルト値
+	 * @return 値
+	 */
+	public Boolean getBoolean(final String aKey, final Boolean aDefault);
+
+	/**
+	 * このクラスは、マップ形式のパラメータ情報を保持するクラスです。
+	 * 
+	 * @since 1.0.1
+	 * @version 1.0.1 2014/06/05
+	 * @author Kawakicchi
+	 */
+	public final static class MapParameter implements Parameter {
+
+		/**
+		 * parameter
+		 */
+		private Map<String, Object> parameter;
+
+		/**
+		 * コンストラクタ
+		 */
+		private MapParameter() {
+			parameter = new HashMap<String, Object>();
+		}
+
+		/**
+		 * コンストラクタ
+		 * 
+		 * @param aMap マップ情報
+		 */
+		private MapParameter(final Map<String, Object> aMap) {
+			parameter = new HashMap<String, Object>(aMap);
+		}
+
+		@Override
+		public Object get(final String aKey) {
+			return get(aKey, null);
+		}
+
+		@Override
+		public Object get(final String aKey, final Object aDefault) {
+			Object value = aDefault;
+			if (parameter.containsKey(aKey)) {
+				if (null != parameter.get(aKey)) {
+					value = parameter.get(aKey);
 				}
 			}
+			return value;
 		}
-		return value;
-	}
 
-	/**
-	 * プロパティを取得する。
-	 * <p>
-	 * 値が存在しない場合、<code>null</code>を返す。
-	 * </p>
-	 * 
-	 * @param aKey キー
-	 * @return 値
-	 */
-	public Long getLong(final String aKey) {
-		return getLong(aKey, null);
-	}
+		@Override
+		public String getString(final String aKey) {
+			return getString(aKey, null);
+		}
 
-	/**
-	 * プロパティを取得する。
-	 * <p>
-	 * 値が存在しない、または<code>null</code>の場合、デフォルト値を返す。
-	 * </p>
-	 * 
-	 * @param aKey キー
-	 * @param aDefault デフォルト値
-	 * @return 値
-	 */
-	public Long getLong(final String aKey, final Long aDefault) {
-		Long value = aDefault;
-		if (properties.containsKey(aKey)) {
-			Object o = properties.get(aKey);
-			if (null != o) {
-				if (o instanceof Long) {
-					value = (Long) o;
-				} else if (o instanceof String) {
-					value = Long.parseLong((String) o);
+		@Override
+		public String getString(final String aKey, final String aDefault) {
+			String value = aDefault;
+			if (parameter.containsKey(aKey)) {
+				if (null != parameter.get(aKey)) {
+					value = parameter.get(aKey).toString();
 				}
 			}
+			return value;
 		}
-		return value;
-	}
 
-	/**
-	 * プロパティを取得する。
-	 * <p>
-	 * 値が存在しない場合、<code>null</code>を返す。
-	 * </p>
-	 * 
-	 * @param aKey キー
-	 * @return 値
-	 */
-	public Boolean getBoolean(final String aKey) {
-		return getBoolean(aKey, null);
-	}
+		@Override
+		public Integer getInteger(final String aKey) {
+			return getInteger(aKey, null);
+		}
 
-	/**
-	 * プロパティを取得する。
-	 * <p>
-	 * 値が存在しない、または<code>null</code>の場合、デフォルト値を返す。
-	 * </p>
-	 * 
-	 * @param aKey キー
-	 * @param aDefault デフォルト値
-	 * @return 値
-	 */
-	public Boolean getBoolean(final String aKey, final Boolean aDefault) {
-		Boolean value = aDefault;
-		if (properties.containsKey(aKey)) {
-			Object o = properties.get(aKey);
-			if (null != o) {
-				if (o instanceof Long) {
-					value = (Boolean) o;
-				} else if (o instanceof String) {
-					value = Boolean.parseBoolean((String) o);
+		@Override
+		public Integer getInteger(final String aKey, final Integer aDefault) {
+			Integer value = aDefault;
+			if (parameter.containsKey(aKey)) {
+				Object o = parameter.get(aKey);
+				if (null != o) {
+					if (o instanceof Integer) {
+						value = (Integer) o;
+					} else if (o instanceof String) {
+						value = Integer.parseInt((String) o);
+					}
 				}
 			}
+			return value;
 		}
-		return value;
+
+		@Override
+		public Long getLong(final String aKey) {
+			return getLong(aKey, null);
+		}
+
+		@Override
+		public Long getLong(final String aKey, final Long aDefault) {
+			Long value = aDefault;
+			if (parameter.containsKey(aKey)) {
+				Object o = parameter.get(aKey);
+				if (null != o) {
+					if (o instanceof Long) {
+						value = (Long) o;
+					} else if (o instanceof String) {
+						value = Long.parseLong((String) o);
+					}
+				}
+			}
+			return value;
+		}
+
+		@Override
+		public Boolean getBoolean(final String aKey) {
+			return getBoolean(aKey, null);
+		}
+
+		@Override
+		public Boolean getBoolean(final String aKey, final Boolean aDefault) {
+			Boolean value = aDefault;
+			if (parameter.containsKey(aKey)) {
+				Object o = parameter.get(aKey);
+				if (null != o) {
+					if (o instanceof Long) {
+						value = (Boolean) o;
+					} else if (o instanceof String) {
+						value = Boolean.parseBoolean((String) o);
+					}
+				}
+			}
+			return value;
+		}
 	}
 }
