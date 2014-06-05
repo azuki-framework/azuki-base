@@ -23,7 +23,7 @@ import org.azkfw.persistence.proterty.Property;
 import org.azkfw.persistence.proterty.PropertySupport;
 
 /**
- * このクラスは、ロジック機能を実装する基底クラスです。
+ * このクラスは、永続化機能をサポートしたロジッククラスです。
  * 
  * @since 1.0.0
  * @version 1.0.0 2012/12/30
@@ -46,17 +46,6 @@ public abstract class AbstractPersistenceLogic extends AbstractLogic implements 
 	 */
 	public AbstractPersistenceLogic() {
 		super();
-		property = null;
-	}
-
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param aName 名前
-	 */
-	public AbstractPersistenceLogic(final String aName) {
-		super(aName);
-		property = null;
 	}
 
 	/**
@@ -66,7 +55,15 @@ public abstract class AbstractPersistenceLogic extends AbstractLogic implements 
 	 */
 	public AbstractPersistenceLogic(final Class<?> aClass) {
 		super(aClass);
-		property = null;
+	}
+
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param aName 名前
+	 */
+	public AbstractPersistenceLogic(final String aName) {
+		super(aName);
 	}
 
 	@Override
