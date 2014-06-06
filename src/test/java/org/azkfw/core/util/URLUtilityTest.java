@@ -17,11 +17,17 @@
  */
 package org.azkfw.core.util;
 
-import junit.framework.TestCase;
-
+import org.azkfw.test.AbstractTestCase;
 import org.junit.Test;
 
-public class URLUtilityTest extends TestCase {
+/**
+ * このクラスは、{@link URLUtility}クラスのユニットテストを行うクラスです。
+ * 
+ * @since 1.0.0
+ * @version 1.0.1 2014/06/06
+ * @author Kawakicchi
+ */
+public class URLUtilityTest extends AbstractTestCase {
 
 	@Test
 	public void testA() {

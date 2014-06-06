@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import org.azkfw.core.util.PathUtility;
 import org.azkfw.core.util.StringUtility;
 
 /**
@@ -29,9 +30,8 @@ import org.azkfw.core.util.StringUtility;
  * @since 1.0.0
  * @version 1.0.0 12/06/07
  * @author Kawakicchi
- * 
  */
-public final class LocalContext extends AbstractContext {
+public class LocalContext extends AbstractContext {
 
 	/**
 	 * ベースディレクトリ
@@ -42,16 +42,20 @@ public final class LocalContext extends AbstractContext {
 	 * コンストラクタ
 	 */
 	public LocalContext() {
-		baseDir = ".";
+		baseDir = PathUtility.addSeparatorSuffix(".");
 	}
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param dir ベースディレクトリ
+	 * @param aBaseDir ベースディレクトリ
 	 */
-	public LocalContext(final String dir) {
-		baseDir = dir;
+	public LocalContext(final String aBaseDir) {
+		if (StringUtility.isEmpty(aBaseDir)) {
+			baseDir = StringUtility.EMPTY;
+		} else {
+			baseDir = PathUtility.addSeparatorSuffix(aBaseDir);
+		}
 	}
 
 	@Override
@@ -78,20 +82,28 @@ public final class LocalContext extends AbstractContext {
 	}
 
 	/**
+	 * ベースディレクトリを取得する。
+	 * 
+	 * @return ベースディレクトリ
+	 */
+	protected final String getBaseDir() {
+		return baseDir;
+	}
+
+	/**
 	 * フルパスを取得する。
 	 * 
-	 * @param name 名前
+	 * @param aName 名前
 	 * @return パス
 	 */
-	private String getFullPath(final String name) {
+	private String getFullPath(final String aName) {
 		StringBuilder path = new StringBuilder();
-		if (StringUtility.isNotEmpty(baseDir)) {
-			path.append(baseDir);
+		String name = PathUtility.replaseEnvSeparator(aName);
+		if (name.startsWith("/") || -1 != name.indexOf(":\\") || StringUtility.isEmpty(baseDir)) {
+			path.append(aName);
+		} else {
+			path.append(PathUtility.cat(baseDir, aName));
 		}
-		if (!name.startsWith("/")) {
-			path.append("/");
-		}
-		path.append(name);
 		return path.toString();
 	}
 }

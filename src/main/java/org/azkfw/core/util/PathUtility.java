@@ -23,10 +23,10 @@ import java.io.File;
  * このクラスは、パス操作をまとめたユーティリティクラスです。
  * 
  * @since 1.0.0
- * @version 1.0.0 2013/06/26
+ * @version 1.0.1 2014/06/06
  * @author Kawakicchi
  */
-public class PathUtility {
+public final class PathUtility {
 
 	/**
 	 * コンストラクタ
@@ -45,24 +45,49 @@ public class PathUtility {
 	 * @return パス
 	 */
 	public static String cat(final String... strs) {
-
 		StringBuilder s = new StringBuilder();
 		for (int i = 0; i < strs.length; i++) {
-			if (0 < i) {
-				s.append(File.separator);
-			}
-
-			String str = strs[i];
-			str = str.replaceAll("/", File.separator);
-			str = str.replace("\\", File.separator);
+			String str = replaseEnvSeparator(strs[i]);
 			if (0 == i) {
 				str = trimR(str, File.separator);
 			} else {
+				s.append(File.separator);
 				str = trim(str, File.separator);
 			}
 			s.append(str);
 		}
 		return s.toString();
+	}
+
+	/**
+	 * パスの接尾に区切り文字を追加する。
+	 * 
+	 * @param aPath パス
+	 * @return パス
+	 */
+	public static String addSeparatorSuffix(final String aPath) {
+		String path = replaseEnvSeparator(aPath);
+		if (!path.endsWith(File.separator)) {
+			path += File.separator;
+		}
+		return path;
+	}
+
+	/**
+	 * パスを環境に合わせた区切り文字に置き換える。
+	 * 
+	 * @param aPath パス
+	 * @return パス
+	 */
+	public static String replaseEnvSeparator(final String aPath) {
+		String path = aPath;
+		if (null != path) {
+			path = path.replaceAll("/", File.separator);
+			path = path.replace("\\", File.separator);
+		} else {
+			path = StringUtility.EMPTY;
+		}
+		return path;
 	}
 
 	/**
@@ -87,8 +112,13 @@ public class PathUtility {
 	 */
 	private static String trimL(final String aString, final String aTrimword) {
 		String buf = aString;
-		while (buf.startsWith(aTrimword)) {
-			buf = buf.substring(aTrimword.length());
+		if (null != buf) {
+			buf = buf.trim();
+			while (buf.startsWith(aTrimword)) {
+				buf = buf.substring(aTrimword.length());
+			}
+		} else {
+			buf = StringUtility.EMPTY;
 		}
 		return buf;
 	}
@@ -102,8 +132,13 @@ public class PathUtility {
 	 */
 	private static String trimR(final String aString, final String aTrimword) {
 		String buf = aString;
-		while (buf.endsWith(aTrimword)) {
-			buf = buf.substring(0, buf.length() - aTrimword.length());
+		if (null != buf) {
+			buf = aString.trim();
+			while (buf.endsWith(aTrimword)) {
+				buf = buf.substring(0, buf.length() - aTrimword.length());
+			}
+		} else {
+			buf = StringUtility.EMPTY;
 		}
 		return buf;
 	}
