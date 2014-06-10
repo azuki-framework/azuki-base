@@ -82,7 +82,7 @@ public final class PathUtility {
 	public static String replaseEnvSeparator(final String aPath) {
 		String path = aPath;
 		if (null != path) {
-			path = path.replaceAll("/", File.separator);
+			path = path.replace("/", File.separator);
 			path = path.replace("\\", File.separator);
 		} else {
 			path = StringUtility.EMPTY;
