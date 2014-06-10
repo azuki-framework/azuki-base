@@ -78,7 +78,9 @@ public abstract class AbstractTaskExecuteScript implements Runnable {
 			}
 
 			float prg = 0.0f;
-			console.print(" %5.1f%% [%-" + progressSize + "s] %s", prg, ">", toString(0));
+			if (null != progress) {
+				console.print(" %5.1f%% [%-" + progressSize + "s] %s", prg, ">", toString(0));
+			}
 
 			Thread t = new Thread(this);
 			t.start();
@@ -97,8 +99,10 @@ public abstract class AbstractTaskExecuteScript implements Runnable {
 
 				long time = System.currentTimeMillis() - startTime;
 
-				console.print(backLine);
-				console.print(" %5.1f%% [%-" + progressSize + "s] %s", prg, s.toString(), toString(time));
+				if (null != progress) {
+					console.print(backLine);
+					console.print(" %5.1f%% [%-" + progressSize + "s] %s", prg, s.toString(), toString(time));
+				}
 
 				try {
 					Thread.sleep(100);
@@ -107,9 +111,11 @@ public abstract class AbstractTaskExecuteScript implements Runnable {
 				}
 			}
 
-			console.print(backLine);
-			console.print(spaceLine);
-			console.print(backLine);
+			if (null != progress) {
+				console.print(backLine);
+				console.print(spaceLine);
+				console.print(backLine);
+			}
 
 			endTime = System.currentTimeMillis();
 		}
