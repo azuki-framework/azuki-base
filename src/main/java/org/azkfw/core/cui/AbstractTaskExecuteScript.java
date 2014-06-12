@@ -66,6 +66,9 @@ public abstract class AbstractTaskExecuteScript implements Runnable {
 			startTime = System.currentTimeMillis();
 			endTime = -1;
 
+			Thread t = new Thread(this);
+			t.start();
+
 			int progressSize = 50;
 			int totalSize = progressSize + 10 + 1 + 10;
 
@@ -78,12 +81,6 @@ public abstract class AbstractTaskExecuteScript implements Runnable {
 			}
 
 			float prg = 0.0f;
-			if (null != progress) {
-				console.print(" %5.1f%% [%-" + progressSize + "s] %s", prg, "", toString(0));
-			}
-
-			Thread t = new Thread(this);
-			t.start();
 			while (running) {
 				if (null != progress) {
 					prg = progress.progress();
