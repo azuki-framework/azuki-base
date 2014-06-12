@@ -41,6 +41,8 @@ public final class TaskBuilder extends LoggingObject {
 
 	private Parameter parameter;
 
+	private Property property;
+
 	public TaskBuilder(final Class<? extends Task> aClass) {
 		super(TaskBuilder.class);
 		clazz = aClass;
@@ -52,6 +54,10 @@ public final class TaskBuilder extends LoggingObject {
 
 	public void setParameter(final Parameter aParameter) {
 		parameter = aParameter;
+	}
+
+	public void setProperty(final Property aProperty) {
+		property = aProperty;
 	}
 
 	public Task build() {
@@ -82,17 +88,22 @@ public final class TaskBuilder extends LoggingObject {
 
 				// Property support
 				if (task instanceof PropertySupport) {
-					Property property = PropertyManager.get(clazz);
-					if (null == property) {
-						if (null != context) {
-							property = PropertyManager.load(clazz, context);
-						} else {
-							warn("Unset context.");
+					Property p = null;
+					if (null != property) {
+						p = property;
+					} else {
+						p = PropertyManager.get(clazz);
+						if (null == p) {
+							if (null != context) {
+								p = PropertyManager.load(clazz, context);
+							} else {
+								warn("Unset context.");
+							}
 						}
 					}
 
-					if (null != property) {
-						((PropertySupport) task).setProperty(property);
+					if (null != p) {
+						((PropertySupport) task).setProperty(p);
 					} else {
 						warn("Unset property.[" + clazz.getName() + "]");
 					}
