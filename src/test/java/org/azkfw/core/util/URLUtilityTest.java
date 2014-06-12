@@ -17,7 +17,8 @@
  */
 package org.azkfw.core.util;
 
-import org.azkfw.test.AbstractTestCase;
+import junit.framework.TestCase;
+
 import org.junit.Test;
 
 /**
@@ -27,7 +28,7 @@ import org.junit.Test;
  * @version 1.0.1 2014/06/06
  * @author Kawakicchi
  */
-public class URLUtilityTest extends AbstractTestCase {
+public class URLUtilityTest extends TestCase {
 
 	@Test
 	public void testA() {
