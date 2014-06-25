@@ -19,6 +19,7 @@ package org.azkfw.persistence.proterty;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * このインターフェースは、パラメータ情報を保持する機能を定義したインターフェースです。
@@ -57,6 +58,20 @@ public interface Property {
 			Property p;
 			p = new MapProperty();
 			return p;
+		}
+
+		/**
+		 * プロパティ情報を作成する。
+		 * 
+		 * @param aProperties プロパティ
+		 * @return パラメータ情報
+		 */
+		public static Property build(final Properties aProperties) {
+			Map<String, Object> m = new HashMap<String, Object>();
+			for (Object key : aProperties.keySet()) {
+				m.put(key.toString(), aProperties.get(key));
+			}
+			return new MapProperty(m);
 		}
 
 		/**

@@ -18,7 +18,7 @@
 
 	<groupId>org.azkfw</groupId>
 	<artifactId>azuki-base</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>azuki-base</name>
@@ -71,10 +71,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.azkfw</groupId>
-			<artifactId>azuki-test</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-			<scope>test</scope>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
 		</dependency>
 	</dependencies>
 

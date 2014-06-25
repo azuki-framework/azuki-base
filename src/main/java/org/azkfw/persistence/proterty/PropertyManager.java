@@ -97,11 +97,7 @@ public final class PropertyManager extends AbstractManager {
 						try {
 							Properties p = new Properties();
 							p.load(stream);
-							Map<String, Object> m = new HashMap<String, Object>();
-							for (Object key : p.keySet()) {
-								m.put(key.toString(), p.get(key));
-							}
-							property = Property.Builder.build(m);
+							property = Property.Builder.build(p);
 						} catch (IOException ex) {
 							error("Property file read error.[" + value + "]");
 							error(ex);

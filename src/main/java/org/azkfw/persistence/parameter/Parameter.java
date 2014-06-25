@@ -173,6 +173,29 @@ public interface Parameter {
 	 * @param aKey キー
 	 * @return 値
 	 */
+	public Double getDouble(final String aKey);
+
+	/**
+	 * パラメータを取得する。
+	 * <p>
+	 * 値が存在しない、または<code>null</code>の場合、デフォルト値を返す。
+	 * </p>
+	 * 
+	 * @param aKey キー
+	 * @param aDefault デフォルト値
+	 * @return 値
+	 */
+	public Double getDouble(final String aKey, final Double aDefault);
+
+	/**
+	 * パラメータを取得する。
+	 * <p>
+	 * 値が存在しない場合、<code>null</code>を返す。
+	 * </p>
+	 * 
+	 * @param aKey キー
+	 * @return 値
+	 */
 	public Boolean getBoolean(final String aKey);
 
 	/**
@@ -292,6 +315,29 @@ public interface Parameter {
 		}
 
 		@Override
+		public Double getDouble(final String aKey) {
+			return getDouble(aKey, null);
+		}
+
+		@Override
+		public Double getDouble(final String aKey, final Double aDefault) {
+			Double value = aDefault;
+			if (parameter.containsKey(aKey)) {
+				Object o = parameter.get(aKey);
+				if (null != o) {
+					if (o instanceof Double) {
+						value = (Double) o;
+					} else if (o instanceof Float) {
+						value = ((Float) o).doubleValue();
+					} else if (o instanceof String) {
+						value = Double.parseDouble((String) o);
+					}
+				}
+			}
+			return value;
+		}
+
+		@Override
 		public Boolean getBoolean(final String aKey) {
 			return getBoolean(aKey, null);
 		}
@@ -302,10 +348,14 @@ public interface Parameter {
 			if (parameter.containsKey(aKey)) {
 				Object o = parameter.get(aKey);
 				if (null != o) {
-					if (o instanceof Long) {
+					if (o instanceof Boolean) {
 						value = (Boolean) o;
 					} else if (o instanceof String) {
-						value = Boolean.parseBoolean((String) o);
+						if ("on".equals(((String) o).toLowerCase())) {
+							value = Boolean.TRUE;
+						} else {
+							value = Boolean.parseBoolean((String) o);
+						}
 					}
 				}
 			}
