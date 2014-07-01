@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.azkfw.business.manager.AbstractManager;
+import org.azkfw.core.lang.LoggingObject;
 import org.azkfw.core.util.StringUtility;
 import org.azkfw.persistence.context.Context;
 
@@ -34,7 +34,7 @@ import org.azkfw.persistence.context.Context;
  * @version 1.0.1 2014/06/05
  * @author Kawakicchi
  */
-public final class PropertyManager extends AbstractManager {
+public final class PropertyManager extends LoggingObject {
 
 	/**
 	 * Instance

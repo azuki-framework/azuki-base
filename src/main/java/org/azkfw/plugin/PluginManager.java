@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.digester3.Digester;
-import org.azkfw.business.manager.AbstractManager;
+import org.azkfw.core.lang.LoggingObject;
 import org.azkfw.core.util.StringUtility;
 import org.azkfw.persistence.ConfigurationFormatException;
 import org.azkfw.persistence.configuration.Configuration;
@@ -41,7 +41,7 @@ import org.xml.sax.SAXException;
  * @version 1.0.0 12/06/07
  * @author Kawakicchi
  */
-public final class PluginManager extends AbstractManager {
+public final class PluginManager extends LoggingObject {
 
 	/**
 	 * Instance
@@ -171,7 +171,7 @@ public final class PluginManager extends AbstractManager {
 				if (null != pluginList) {
 					for (int i = 0; i < pluginList.size(); i++) {
 						PluginXmlEntity p = pluginList.get(i);
-						info("Plugin loading.[" + p.getName() +"]");
+						info("Plugin loading.[" + p.getName() + "]");
 						Class<Plugin> clazz = (Class<Plugin>) Class.forName(p.getPlugin());
 						Plugin plugin = clazz.newInstance();
 

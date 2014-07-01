@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.azkfw.business.manager.AbstractManager;
+import org.azkfw.core.lang.LoggingObject;
 import org.azkfw.core.util.StringUtility;
 import org.azkfw.persistence.PersistenceServiceException;
 
@@ -34,7 +34,7 @@ import org.azkfw.persistence.PersistenceServiceException;
  * @author Kawakicchi
  * 
  */
-public final class DatabaseConnectionManager extends AbstractManager {
+public final class DatabaseConnectionManager extends LoggingObject {
 
 	/**
 	 * Instance
