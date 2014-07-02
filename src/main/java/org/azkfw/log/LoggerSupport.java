@@ -15,49 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.azkfw.plugin;
-
-import org.azkfw.lang.PrimitiveException;
+package org.azkfw.log;
 
 /**
- * このクラスは、プラグイン機能の例外を表現する例外クラスです。
+ * このインターフェースは、ログ機能のサポートを行うためのインターフェースです。
  * 
  * @since 1.0.0
- * @version 1.0.0 12/06/07
+ * @version 1.0.0 2013/02/09
  * @author Kawakicchi
  */
-public class PluginServiceException extends PrimitiveException {
+public interface LoggerSupport {
 
 	/**
-	 * serialVersionUID
-	 */
-	private static final long serialVersionUID = -8783828565642263411L;
-
-	/**
-	 * コンストラクタ
+	 * ロガーを設定する。
 	 * 
-	 * @param message Message
+	 * @param aLogger ロガー
 	 */
-	public PluginServiceException(final String message) {
-		super(message);
-	}
-
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param throwable Throwable
-	 */
-	public PluginServiceException(final Throwable throwable) {
-		super(throwable);
-	}
-
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param message Message
-	 * @param throwable Throwable
-	 */
-	public PluginServiceException(final String message, final Throwable throwable) {
-		super(message, throwable);
-	}
+	public void setLogger(final Logger aLogger);
 }

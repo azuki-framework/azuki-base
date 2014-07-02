@@ -19,6 +19,7 @@ package org.azkfw.core.util;
 
 import junit.framework.TestCase;
 
+import org.azkfw.util.URLUtility;
 import org.junit.Test;
 
 /**

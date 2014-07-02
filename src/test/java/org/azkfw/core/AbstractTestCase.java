@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import junit.framework.TestCase;
 
-import org.azkfw.core.util.PathUtility;
+import org.azkfw.util.PathUtility;
 
 public abstract class AbstractTestCase extends TestCase {
 

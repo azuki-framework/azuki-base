@@ -7,8 +7,8 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 import org.azkfw.core.AbstractTestCase;
-import org.azkfw.core.io.CsvBufferedReader;
-import org.azkfw.core.util.PathUtility;
+import org.azkfw.io.CsvBufferedReader;
+import org.azkfw.util.PathUtility;
 import org.junit.Test;
 
 /**

@@ -1,7 +1,7 @@
 package org.azkfw.core.util.io;
 
 import org.azkfw.core.AbstractTestCase;
-import org.azkfw.core.io.CsvBufferedWriter;
+import org.azkfw.io.CsvBufferedWriter;
 import org.junit.Test;
 
 /**

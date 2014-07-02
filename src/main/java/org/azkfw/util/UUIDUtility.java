@@ -15,49 +15,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.azkfw.plugin;
+package org.azkfw.util;
 
-import org.azkfw.lang.PrimitiveException;
+import java.util.UUID;
 
 /**
- * このクラスは、プラグイン機能の例外を表現する例外クラスです。
+ * このクラスは、UUID操作を行うユーティリティクラスです。
  * 
  * @since 1.0.0
- * @version 1.0.0 12/06/07
+ * @version 1.0.0 2013/06/14
  * @author Kawakicchi
  */
-public class PluginServiceException extends PrimitiveException {
-
-	/**
-	 * serialVersionUID
-	 */
-	private static final long serialVersionUID = -8783828565642263411L;
+public class UUIDUtility {
 
 	/**
 	 * コンストラクタ
-	 * 
-	 * @param message Message
+	 * <p>
+	 * インスタンス生成を禁止する。
+	 * </p>
 	 */
-	public PluginServiceException(final String message) {
-		super(message);
+	private UUIDUtility() {
+
 	}
 
 	/**
-	 * コンストラクタ
+	 * UUIDを生成する。
 	 * 
-	 * @param throwable Throwable
+	 * @return UUID
 	 */
-	public PluginServiceException(final Throwable throwable) {
-		super(throwable);
+	public static String generateToString() {
+		String s = UUID.randomUUID().toString();
+		return s;
 	}
 
 	/**
-	 * コンストラクタ
+	 * UUIDを生成する。
 	 * 
-	 * @param message Message
-	 * @param throwable Throwable
+	 * @return UUID
 	 */
-	public PluginServiceException(final String message, final Throwable throwable) {
-		super(message, throwable);
+	public static String generateToShortString() {
+		String s = UUID.randomUUID().toString();
+		return s.substring(0, 8) + s.substring(9, 13) + s.substring(14, 18) + s.substring(19, 23) + s.substring(24, 36);
 	}
 }

@@ -19,12 +19,12 @@ package org.azkfw.plugin;
 
 import java.io.IOException;
 
-import org.azkfw.core.lang.LoggingObject;
-import org.azkfw.persistence.ConfigurationFormatException;
-import org.azkfw.persistence.configuration.Configuration;
-import org.azkfw.persistence.configuration.ConfigurationSupport;
-import org.azkfw.persistence.context.Context;
-import org.azkfw.persistence.context.ContextSupport;
+import org.azkfw.configuration.ConfigurationFormatException;
+import org.azkfw.configuration.Configuration;
+import org.azkfw.configuration.ConfigurationSupport;
+import org.azkfw.context.Context;
+import org.azkfw.context.ContextSupport;
+import org.azkfw.lang.LoggingObject;
 
 /**
  * このクラスは、プラグイン機能の実装を行うための基底クラスです。

@@ -23,15 +23,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.digester3.Digester;
-import org.azkfw.core.lang.LoggingObject;
-import org.azkfw.core.util.StringUtility;
-import org.azkfw.persistence.ConfigurationFormatException;
-import org.azkfw.persistence.configuration.Configuration;
-import org.azkfw.persistence.configuration.ConfigurationSupport;
-import org.azkfw.persistence.configuration.InputStreamConfiguration;
-import org.azkfw.persistence.context.Context;
-import org.azkfw.persistence.context.ContextSupport;
-import org.azkfw.persistence.entity.Entity;
+import org.azkfw.configuration.Configuration;
+import org.azkfw.configuration.ConfigurationFormatException;
+import org.azkfw.configuration.ConfigurationSupport;
+import org.azkfw.configuration.InputStreamConfiguration;
+import org.azkfw.context.Context;
+import org.azkfw.context.ContextSupport;
+import org.azkfw.lang.LoggingObject;
+import org.azkfw.util.StringUtility;
 import org.xml.sax.SAXException;
 
 /**
@@ -242,7 +241,7 @@ public final class PluginManager extends LoggingObject {
 	 * @version 1.0.0 12/07/16
 	 * @author Kawakicchi
 	 */
-	public static class PluginEntity implements Entity {
+	public static class PluginEntity {
 
 		/**
 		 * プラグイン名
@@ -283,11 +282,6 @@ public final class PluginManager extends LoggingObject {
 		public Plugin getPlugin() {
 			return plugin;
 		}
-
-		@Override
-		public boolean isEmpty() {
-			return false;
-		}
 	}
 
 	/**
@@ -297,7 +291,7 @@ public final class PluginManager extends LoggingObject {
 	 * @version 1.0.0 12/06/14
 	 * @author Kawakicchi
 	 */
-	public static class PluginXmlEntity implements Entity {
+	public static class PluginXmlEntity {
 
 		/**
 		 * プラグイン名
@@ -368,18 +362,5 @@ public final class PluginManager extends LoggingObject {
 			return config;
 		}
 
-		@Override
-		public boolean isEmpty() {
-			if (StringUtility.isEmpty(name)) {
-				return true;
-			}
-			if (StringUtility.isEmpty(clazz)) {
-				return true;
-			}
-			if (StringUtility.isEmpty(config)) {
-				return true;
-			}
-			return false;
-		}
 	}
 }

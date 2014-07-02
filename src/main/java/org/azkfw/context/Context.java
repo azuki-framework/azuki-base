@@ -15,49 +15,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.azkfw.plugin;
+package org.azkfw.context;
 
-import org.azkfw.lang.PrimitiveException;
+import java.io.InputStream;
 
 /**
- * このクラスは、プラグイン機能の例外を表現する例外クラスです。
+ * このインターフェースは、コンテキスト機能を表現するインターフェースです。
  * 
  * @since 1.0.0
- * @version 1.0.0 12/06/07
+ * @version 1.0.0 2012/08/12
  * @author Kawakicchi
  */
-public class PluginServiceException extends PrimitiveException {
+public interface Context {
 
 	/**
-	 * serialVersionUID
-	 */
-	private static final long serialVersionUID = -8783828565642263411L;
-
-	/**
-	 * コンストラクタ
+	 * リソースの絶対パスを取得する。
 	 * 
-	 * @param message Message
+	 * @param aName リソース名
+	 * @return 絶対パス
 	 */
-	public PluginServiceException(final String message) {
-		super(message);
-	}
+	public String getAbstractPath(final String aName);
 
 	/**
-	 * コンストラクタ
+	 * リソースストリームを取得する。
 	 * 
-	 * @param throwable Throwable
+	 * @param aName リソース名
+	 * @return ストリーム
 	 */
-	public PluginServiceException(final Throwable throwable) {
-		super(throwable);
-	}
-
-	/**
-	 * コンストラクタ
-	 * 
-	 * @param message Message
-	 * @param throwable Throwable
-	 */
-	public PluginServiceException(final String message, final Throwable throwable) {
-		super(message, throwable);
-	}
+	public InputStream getResourceAsStream(final String aName);
 }

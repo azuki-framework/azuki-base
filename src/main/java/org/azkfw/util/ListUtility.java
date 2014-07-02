@@ -15,49 +15,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.azkfw.plugin;
+package org.azkfw.util;
 
-import org.azkfw.lang.PrimitiveException;
+import java.util.List;
 
 /**
- * このクラスは、プラグイン機能の例外を表現する例外クラスです。
+ * このクラスは、リスト操作を行うユーティリティクラスです。
  * 
  * @since 1.0.0
- * @version 1.0.0 12/06/07
+ * @version 1.0.0 2013/03/01
  * @author Kawakicchi
  */
-public class PluginServiceException extends PrimitiveException {
-
-	/**
-	 * serialVersionUID
-	 */
-	private static final long serialVersionUID = -8783828565642263411L;
+public final class ListUtility {
 
 	/**
 	 * コンストラクタ
-	 * 
-	 * @param message Message
+	 * <p>
+	 * インスタンス生成を禁止する。
+	 * </p>
 	 */
-	public PluginServiceException(final String message) {
-		super(message);
+	private ListUtility() {
+
 	}
 
 	/**
-	 * コンストラクタ
+	 * リストが、エンプティーか判断する。
 	 * 
-	 * @param throwable Throwable
+	 * @param aList リスト
+	 * @return リストが<code>null</code>かエンプティーの場合、<code>true</code>を返す。
 	 */
-	public PluginServiceException(final Throwable throwable) {
-		super(throwable);
+	public static boolean isEmpty(final List<?> aList) {
+		return !(isNotEmpty(aList));
 	}
 
 	/**
-	 * コンストラクタ
+	 * リストが、エンプティーか判断する。
 	 * 
-	 * @param message Message
-	 * @param throwable Throwable
+	 * @param aList リスト
+	 * @return リストが<code>null</code>かエンプテー以外の場合、<code>true</code>を返す。
 	 */
-	public PluginServiceException(final String message, final Throwable throwable) {
-		super(message, throwable);
+	public static boolean isNotEmpty(final List<?> aList) {
+		if (null != aList) {
+			if (!aList.isEmpty()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

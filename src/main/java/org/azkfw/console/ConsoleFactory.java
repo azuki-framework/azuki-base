@@ -15,39 +15,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.azkfw.core.util;
-
-import java.io.File;
-
-import junit.framework.TestCase;
-
-import org.azkfw.util.PathUtility;
-import org.junit.Test;
+package org.azkfw.console;
 
 /**
- * このクラスは、{@link PathUtility}クラスのユニットテストを行うクラスです。
+ * このクラスは、コンソールの生成を行うためのファクトリークラスです。
  * 
- * @since 1.0.0
- * @version 1.0.1 2014/06/06
+ * @since 1.0.1
+ * @version 1.0.1 2014/06/10
  * @author Kawakicchi
  */
-public class PathUtilityTest extends TestCase {
+public class ConsoleFactory {
 
-	@Test
-	public void testCat() {
-
-		assertEquals("", PathUtility.cat());
-		assertEquals("", PathUtility.cat(""));
-
-		assertEquals(File.separator, PathUtility.cat("", ""));
-		assertEquals("aaa" + File.separator + "bbb", PathUtility.cat("aaa", "bbb"));
-	}
-
-	@Test
-	public void testAddSeparatorSuffix() {
-
-		assertEquals(File.separator, PathUtility.addSeparatorSuffix(null));
-		assertEquals(File.separator, PathUtility.addSeparatorSuffix(""));
-
+	/**
+	 * コンソールを生成する。
+	 * 
+	 * @return コンソール
+	 */
+	public static Console create() {
+		Console console = null;
+		String value = System.getProperty("os.name");
+		String name = value.toLowerCase();
+		if (0 != name.indexOf("windows")) {
+			console = new WindowsConsole();
+		} else if (0 != name.indexOf("linux")) {
+			console = new LinuxConsole();
+		} else if (0 != name.indexOf("mac")) {
+			console = new MacConsole();
+		}
+		return console;
 	}
 }

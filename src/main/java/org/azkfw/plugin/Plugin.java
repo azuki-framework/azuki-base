@@ -19,7 +19,7 @@ package org.azkfw.plugin;
 
 import java.io.IOException;
 
-import org.azkfw.persistence.ConfigurationFormatException;
+import org.azkfw.configuration.ConfigurationFormatException;
 
 /**
  * このインターフェースは、プラグイン機能を表現するインターフェースです。
