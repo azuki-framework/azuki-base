@@ -12,7 +12,7 @@ public abstract class AbstractTestCase extends TestCase {
 	private File resourcesDirectory;
 
 	public AbstractTestCase() {
-		resourcesDirectory = new File(PathUtility.cat(".", "src", "test", "resources"));
+		resourcesDirectory = new File(PathUtility.replaseEnvSeparator("./src/test/resources"));
 	}
 
 	public AbstractTestCase(final File aResourcesDirectory) {
