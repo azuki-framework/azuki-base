@@ -1,4 +1,4 @@
-package org.azkfw.core.util.io;
+package org.azkfw.io;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

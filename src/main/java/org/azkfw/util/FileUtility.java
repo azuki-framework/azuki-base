@@ -260,6 +260,16 @@ public final class FileUtility {
 	}
 
 	/**
+	 * 指定されたディレクトリ配下のファイルを再帰的に全て取得する。
+	 * 
+	 * @param aDirectory ディレクトリ
+	 * @return ファイル群
+	 */
+	public static final List<File> listFiles(final File aDirectory) {
+		return listFiles(aDirectory, (Pattern) null);
+	}
+
+	/**
 	 * 指定されたディレクトリ配下のファイルを再帰的にファイルパスがパターンにマッチするもののみ取得する。
 	 * <p>
 	 * パターン例
@@ -283,6 +293,24 @@ public final class FileUtility {
 	 * パターン例
 	 * <ul>
 	 * <li>CSVファイル - "^.*\.(csv|CSV)$"</li>
+	 * <li>CSVファイルで末3ケタが数値のファイル - "^.*[0-9]{3}\.csv$"</li>
+	 * </ul>
+	 * </p>
+	 * 
+	 * @param aDirectory ディレクトリ
+	 * @param aPattern パターン
+	 * @return ファイル群
+	 */
+	public static final List<File> listFiles(final File aDirectory, final String aPattern) {
+		return listFiles(aDirectory, Pattern.compile(aPattern));
+	}
+
+	/**
+	 * 指定されたディレクトリ配下のファイルを再帰的にファイルパスがパターンにマッチするもののみ取得する。
+	 * <p>
+	 * パターン例
+	 * <ul>
+	 * <li>CSVファイル - "^.*\.(csv|CSV)$"</li>
 	 * </ul>
 	 * </p>
 	 * 
@@ -291,9 +319,25 @@ public final class FileUtility {
 	 * @return ファイル群
 	 */
 	public static final List<File> listFiles(final String aDirectory, final Pattern aPattern) {
+		return listFiles(new File(aDirectory), aPattern);
+	}
+
+	/**
+	 * 指定されたディレクトリ配下のファイルを再帰的にファイルパスがパターンにマッチするもののみ取得する。
+	 * <p>
+	 * パターン例
+	 * <ul>
+	 * <li>CSVファイル - "^.*\.(csv|CSV)$"</li>
+	 * </ul>
+	 * </p>
+	 * 
+	 * @param aDirectory ディレクトリ
+	 * @param aPattern パターン
+	 * @return ファイル群
+	 */
+	public static final List<File> listFiles(final File aDirectory, final Pattern aPattern) {
 		List<File> files = new ArrayList<File>();
-		File dir = new File(aDirectory);
-		readDir(dir, aPattern, files);
+		readDir(aDirectory, aPattern, files);
 		return files;
 	}
 

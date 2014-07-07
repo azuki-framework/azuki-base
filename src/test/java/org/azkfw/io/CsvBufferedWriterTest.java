@@ -1,4 +1,4 @@
-package org.azkfw.core.util.io;
+package org.azkfw.io;
 
 import org.azkfw.core.AbstractTestCase;
 import org.azkfw.io.CsvBufferedWriter;

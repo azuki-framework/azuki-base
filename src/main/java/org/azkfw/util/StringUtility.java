@@ -65,8 +65,7 @@ public final class StringUtility {
 	}
 
 	/**
-	 * オブジェクトを文字列として取得する。
-	 * オブジェクトが<code>null</code>の場合、空文字を返す。
+	 * オブジェクトを文字列として取得する。 オブジェクトが<code>null</code>の場合、空文字を返す。
 	 * 
 	 * @param aObject オブジェクト
 	 * @return 文字列
@@ -80,8 +79,7 @@ public final class StringUtility {
 	}
 
 	/**
-	 * オブジェクトを文字列として取得する。
-	 * オブジェクトが<code>null</code>の場合、<code>null</code>を返す。
+	 * オブジェクトを文字列として取得する。 オブジェクトが<code>null</code>の場合、<code>null</code>を返す。
 	 * 
 	 * @param aObject オブジェクト
 	 * @return 空文字
@@ -90,6 +88,20 @@ public final class StringUtility {
 		String string = null;
 		if (null != aObject) {
 			string = aObject.toString();
+		}
+		return string;
+	}
+
+	/**
+	 * 文字列をトリムする。
+	 * 
+	 * @param aString 文字列
+	 * @return 文字列
+	 */
+	public static String trim(final String aString) {
+		String string = aString;
+		if (StringUtility.isNotEmpty(string)) {
+			string = string.trim();
 		}
 		return string;
 	}

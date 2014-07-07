@@ -44,7 +44,7 @@ public final class DateUtility {
 	 * 日付を作成する。
 	 * 
 	 * @param aYear 年
-	 * @param aMonth 月
+	 * @param aMonth 月(1-12)
 	 * @param aDate 日
 	 * @param aHour 時
 	 * @param aMinute 分
@@ -53,7 +53,7 @@ public final class DateUtility {
 	 */
 	public static Date createDate(final int aYear, final int aMonth, final int aDate, final int aHour, final int aMinute, final int aSecond) {
 		Calendar c = Calendar.getInstance();
-		c.set(aYear, aMonth, aDate, aHour, aMinute, aSecond);
+		c.set(aYear, aMonth - 1, aDate, aHour, aMinute, aSecond);
 		return c.getTime();
 	}
 
@@ -61,7 +61,24 @@ public final class DateUtility {
 	 * 日付を作成する。
 	 * 
 	 * @param aYear 年
-	 * @param aMonth 月
+	 * @param aMonth 月(1-12)
+	 * @param aDate 日
+	 * @param aHour 時
+	 * @param aMinute 分
+	 * @param aSecond 秒
+	 * @return 日付
+	 */
+	public static Calendar createCalendar(final int aYear, final int aMonth, final int aDate, final int aHour, final int aMinute, final int aSecond) {
+		Calendar c = Calendar.getInstance();
+		c.set(aYear, aMonth - 1, aDate, aHour, aMinute, aSecond);
+		return c;
+	}
+
+	/**
+	 * 日付を作成する。
+	 * 
+	 * @param aYear 年
+	 * @param aMonth 月(1-12)
 	 * @param aDate 日
 	 * @param aHour 時
 	 * @param aMinute 分
@@ -70,7 +87,7 @@ public final class DateUtility {
 	 */
 	public static Timestamp createTimestamp(final int aYear, final int aMonth, final int aDate, final int aHour, final int aMinute, final int aSecond) {
 		Calendar c = Calendar.getInstance();
-		c.set(aYear, aMonth, aDate, aHour, aMinute, aSecond);
+		c.set(aYear, aMonth - 1, aDate, aHour, aMinute, aSecond);
 		return new Timestamp(c.getTimeInMillis());
 	}
 
@@ -99,6 +116,28 @@ public final class DateUtility {
 	}
 
 	/**
+	 * タイムスタンプ型として取得する。
+	 * 
+	 * @param aDate 日付
+	 * @return タイムスタンプ型
+	 */
+	public static Timestamp toTimestamp(final Date aDate) {
+		Timestamp ts = new Timestamp(aDate.getTime());
+		return ts;
+	}
+
+	/**
+	 * タイムスタンプ型として取得する。
+	 * 
+	 * @param aDate 日付
+	 * @return タイムスタンプ型
+	 */
+	public static Timestamp toTimestamp(final java.sql.Date aDate) {
+		Timestamp ts = new Timestamp(aDate.getTime());
+		return ts;
+	}
+
+	/**
 	 * カレンダー型として取得する。
 	 * 
 	 * @param aTimestamp 日付
@@ -108,5 +147,108 @@ public final class DateUtility {
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(aTimestamp.getTime());
 		return c;
+	}
+
+	/**
+	 * 対象日に日数を加算した日付を取得する。
+	 * 
+	 * @param aDate 対象日
+	 * @param aDay 日数
+	 * @return 日付
+	 */
+	public static Date getDayOfAddDay(final Date aDate, final int aDay) {
+		Calendar src = Calendar.getInstance();
+		src.setTime(aDate);
+		Calendar dst = getDayOfAddDay(src, aDay);
+		return dst.getTime();
+	}
+
+	/**
+	 * 対象日に日数を加算した日付を取得する。
+	 * 
+	 * @param aCalendar 対象日
+	 * @param aDay 日数
+	 * @return 日付
+	 */
+	public static Calendar getDayOfAddDay(final Calendar aCalendar, final int aDay) {
+		Calendar cln = Calendar.getInstance();
+		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH), aCalendar.get(Calendar.DAY_OF_MONTH) + aDay);
+		return cln;
+	}
+
+	/**
+	 * 対象日の前月1日を取得する。
+	 * 
+	 * @param aDate 対象日
+	 * @return 前月1日
+	 */
+	public static Date getDayOfPreviousMonth(final Date aDate) {
+		Calendar src = Calendar.getInstance();
+		src.setTime(aDate);
+		Calendar dst = getDayOfPreviousMonth(src);
+		return dst.getTime();
+	}
+
+	/**
+	 * 対象日の前月1日を取得する。
+	 * 
+	 * @param aCalendar 対象日
+	 * @return 前月1日
+	 */
+	public static Calendar getDayOfPreviousMonth(final Calendar aCalendar) {
+		Calendar cln = Calendar.getInstance();
+		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH) - 1, 1);
+		return cln;
+	}
+
+	/**
+	 * 対象日の翌月１日を取得する。
+	 * 
+	 * @param aDate 対象日
+	 * @return 翌月1日
+	 */
+	public static Date getDayOfNextMonth(final Date aDate) {
+		Calendar src = Calendar.getInstance();
+		src.setTime(aDate);
+		Calendar dst = getDayOfNextMonth(src);
+		return dst.getTime();
+	}
+
+	/**
+	 * 対象日の翌月１日を取得する。
+	 * 
+	 * @param aCalendar 対象日
+	 * @return 翌月1日
+	 */
+	public static Calendar getDayOfNextMonth(final Calendar aCalendar) {
+		Calendar cln = Calendar.getInstance();
+		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH) + 1, 1);
+		return cln;
+	}
+
+	/**
+	 * 対象日の月の最終日を取得する。
+	 * 
+	 * @param aDate 対象日
+	 * @return 最終日
+	 */
+	public static Date getLastDayOfMonth(final Date aDate) {
+		Calendar src = Calendar.getInstance();
+		src.setTime(aDate);
+		Calendar dst = getLastDayOfMonth(src);
+		return dst.getTime();
+	}
+
+	/**
+	 * 対象日の月の最終日を取得する。
+	 * 
+	 * @param aCalendar 対象日
+	 * @return 最終日
+	 */
+	public static Calendar getLastDayOfMonth(final Calendar aCalendar) {
+		int lastDay = aCalendar.getActualMaximum(Calendar.DATE);
+		Calendar cln = Calendar.getInstance();
+		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH), lastDay);
+		return cln;
 	}
 }
