@@ -26,24 +26,29 @@ package org.azkfw.console;
  */
 public abstract class AbstractConsole implements Console {
 
+	@Override
 	public void print(final String message) {
 		System.out.print(message);
 	}
 
+	@Override
 	public void print(final String format, final Object... args) {
 		String message = String.format(format, args);
 		print(message);
 	}
 
+	@Override
 	public void println(final String message) {
 		System.out.println(message);
 	}
 
+	@Override
 	public void println(final String format, final Object... args) {
 		String message = String.format(format, args);
 		println(message);
 	}
 
+	@Override
 	public int getCharacterMaxSizeOfLine() {
 		return 80;
 	}

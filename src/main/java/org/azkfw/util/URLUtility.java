@@ -39,6 +39,34 @@ public class URLUtility {
 
 	}
 
+	public static URL toURL(final String aProtocol, final String aHost, final String aAreas) throws MalformedURLException {
+		return toURL(aProtocol, aHost, null, aAreas);
+	}
+
+	public static URL toURL(final String aProtocol, final String aHost, final Integer aPort, final String aAreas) throws MalformedURLException {
+		StringBuilder s = new StringBuilder();
+		s.append(aProtocol);
+		s.append("://");
+		s.append(aHost);
+		if (null != aPort) {
+			if ("http".equals(aProtocol) && 80 == aPort) {
+				// 省略
+			} else {
+				s.append(":");
+				s.append(aPort);
+			}
+		}
+		if (StringUtility.isNotEmpty(aAreas)) {
+			if (!aAreas.startsWith("/")) {
+				s.append("/");
+			}
+			s.append(aAreas);
+		} else {
+			s.append("/");
+		}
+		return new URL(s.toString());
+	}
+
 	public static String get(final String aBaseURL, final String aTargetURL) throws MalformedURLException {
 		URL base = new URL(aBaseURL);
 		URL url = get(base, aTargetURL);
