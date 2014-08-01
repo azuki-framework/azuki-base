@@ -40,7 +40,7 @@ public final class StringUtility {
 	}
 
 	/**
-	 * 文字列が、エンプティーか判断する。
+	 * 文字列が、エンプティーでないか判断する。
 	 * 
 	 * @param aString 文字列
 	 * @return 文字列が<code>null</code>かブランク以外の場合、<code>true</code>を返す。
@@ -62,6 +62,36 @@ public final class StringUtility {
 	 */
 	public static boolean isEmpty(final String aString) {
 		return !(isNotEmpty(aString));
+	}
+
+	/**
+	 * 全ての文字列が、エンプティーでないか判断する。
+	 * 
+	 * @param strings 文字列群
+	 * @return 全ての文字列が<code>null</code>かブランク以外の場合、<code>true</code>を返す。
+	 */
+	public static boolean isNotEmptyAll(final String... strings) {
+		for (String str : strings) {
+			if (isEmpty(str)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * どれか１つでも文字列が、エンプティーでないか文字列があるか判断する。
+	 * 
+	 * @param strings 文字列群
+	 * @return どれか１つでも文字列が<code>null</code>かブランク以外の場合、<code>true</code>を返す。
+	 */
+	public static boolean isNotEmptyAny(final String... strings) {
+		for (String str : strings) {
+			if (isNotEmpty(str)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
