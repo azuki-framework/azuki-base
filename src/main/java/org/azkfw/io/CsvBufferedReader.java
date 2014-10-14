@@ -40,6 +40,9 @@ import org.azkfw.util.StringUtility;
  */
 public class CsvBufferedReader extends BufferedReader {
 
+	/** 区切り文字 */
+	private Character separateCharacter = ',';
+
 	/**
 	 * コンストラクタ
 	 * 
@@ -126,6 +129,15 @@ public class CsvBufferedReader extends BufferedReader {
 	}
 
 	/**
+	 * 区切り文字を設定する。
+	 * 
+	 * @param aCharacter 区切り文字
+	 */
+	public void setSeparateCharacter(final Character aCharacter) {
+		separateCharacter = aCharacter;
+	}
+
+	/**
 	 * CSVとして１行読み取る。
 	 * 
 	 * @return CSV１行データ
@@ -171,7 +183,7 @@ public class CsvBufferedReader extends BufferedReader {
 				} else {
 					if ('"' == c) {
 						dblFlg = true;
-					} else if (',' == c) {
+					} else if (separateCharacter == c) {
 						result.add(sb.toString());
 						sb = new StringBuilder();
 					} else {

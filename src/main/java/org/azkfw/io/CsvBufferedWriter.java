@@ -37,9 +37,10 @@ import java.util.List;
  */
 public class CsvBufferedWriter extends BufferedWriter {
 
-	/**
-	 * 改行コード
-	 */
+	/** 区切り文字 */
+	private Character separateCharacter = ',';
+
+	/** 改行コード */
 	private String lineSeparator;
 
 	/**
@@ -135,6 +136,15 @@ public class CsvBufferedWriter extends BufferedWriter {
 	}
 
 	/**
+	 * 区切り文字を設定する。
+	 * 
+	 * @param aCharacter 区切り文字
+	 */
+	public void setSeparateCharacter(final Character aCharacter) {
+		separateCharacter = aCharacter;
+	}
+
+	/**
 	 * 改行コードを設定する。
 	 * 
 	 * @param aLineSeparator 改行コード、<code>null</code>を指定した場合、システムデフォルト改行コードを設定する。
@@ -157,7 +167,7 @@ public class CsvBufferedWriter extends BufferedWriter {
 		StringBuilder s = new StringBuilder();
 		for (int i = 0; i < strs.length; i++) {
 			if (0 != i) {
-				s.append(",");
+				s.append(separateCharacter);
 			}
 			s.append(toCsvString(strs[i]));
 		}
@@ -176,13 +186,31 @@ public class CsvBufferedWriter extends BufferedWriter {
 		StringBuilder s = new StringBuilder();
 		for (int i = 0; i < strs.size(); i++) {
 			if (0 != i) {
-				s.append(",");
+				s.append(separateCharacter);
 			}
 			s.append(toCsvString(strs.get(i)));
 		}
 		s.append(lineSeparator);
 
 		write(s.toString());
+	}
+
+	/**
+	 * システムの改行コードを取得する。
+	 * 
+	 * @return 改行コード
+	 */
+	private static String getSystemLineSeparator() {
+		String str = "\n";
+		try {
+			str = System.getProperty("line.separator");
+		} catch (SecurityException ex) {
+		}
+		return str;
+	}
+
+	private void setup() {
+		lineSeparator = getSystemLineSeparator();
 	}
 
 	/**
@@ -197,7 +225,7 @@ public class CsvBufferedWriter extends BufferedWriter {
 			result = aString;
 		}
 		boolean dblFlg = false;
-		if (-1 != result.indexOf(",")) {
+		if (-1 != result.indexOf(separateCharacter)) {
 			dblFlg = true;
 		}
 		if (-1 != result.indexOf("\"")) {
@@ -209,23 +237,4 @@ public class CsvBufferedWriter extends BufferedWriter {
 		}
 		return result;
 	}
-
-	private void setup() {
-		lineSeparator = getSystemLineSeparator();
-	}
-
-	/**
-	 * システムの改行コードを取得する。
-	 * 
-	 * @return 改行コード
-	 */
-	public static String getSystemLineSeparator() {
-		String str = "\n";
-		try {
-			str = System.getProperty("line.separator");
-		} catch (SecurityException ex) {
-		}
-		return str;
-	}
-
 }
