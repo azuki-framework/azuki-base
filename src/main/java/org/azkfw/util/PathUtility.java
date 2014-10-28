@@ -18,6 +18,7 @@
 package org.azkfw.util;
 
 import java.io.File;
+import java.nio.file.Paths;
 
 /**
  * このクラスは、パス操作をまとめたユーティリティクラスです。
@@ -36,6 +37,10 @@ public final class PathUtility {
 	 */
 	private PathUtility() {
 
+	}
+
+	public static File get(final File aDirectory, final String... more) {
+		return Paths.get(aDirectory.getAbsolutePath(), more).toFile();
 	}
 
 	/**
