@@ -77,8 +77,9 @@ public final class ObjectUtility {
 	 * @param objs オブジェクト配列
 	 * @return 最初に見つかった<code>null</code>以外のオブジェクト
 	 */
-	public static Object getNotNullObject(final Object... objs) {
-		for (Object obj : objs) {
+	@SafeVarargs
+	public static <TYPE> TYPE getNotNullObject(final TYPE... objs) {
+		for (TYPE obj : objs) {
 			if (null != obj) {
 				return obj;
 			}
