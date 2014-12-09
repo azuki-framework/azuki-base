@@ -66,6 +66,22 @@ public final class FileUtility {
 	}
 
 	/**
+	 * 拡張子を除いたファイル名を取得する。
+	 * 
+	 * @param aFile ファイル
+	 * @return ファイル名
+	 */
+	public static String getFileName(final File aFile) {
+		String name = aFile.getName();
+		int index = name.lastIndexOf(".");
+		if (-1 != index) {
+			return name.substring(0, index);
+		} else {
+			return name;
+		}
+	}
+
+	/**
 	 * ファイルをコピーする。
 	 * <p>
 	 * コピー処理には
