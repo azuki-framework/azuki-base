@@ -91,6 +91,9 @@ public class URLUtility {
 		} else if (-1 != aTargetURL.indexOf("://")) { // 別ホストへ移動
 			url = new URL(aTargetURL);
 
+		} else if (aTargetURL.startsWith("//")) { // プロトコルのみ保持して別ホストへ移動
+			url = new URL(aBaseURL.getProtocol() + ":" + aTargetURL);
+
 		} else if (0 == aTargetURL.length()) { // 同じ場所 -> #があればどける
 			url = new URL(host + file);
 

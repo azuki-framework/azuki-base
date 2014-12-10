@@ -78,6 +78,8 @@ public class URLUtilityTest extends TestCase {
 			assertEquals("http://localhost/aaaa/test.do", URLUtility.get("http://localhost/aaaa/index.do?aaa=bbb", "test.do"));
 			assertEquals("http://localhost/aaaa/test.do", URLUtility.get("http://localhost/aaaa/index.do#top", "test.do"));
 
+			assertEquals("http://127.0.0.1/test.do", URLUtility.get("http://localhost/aaaa/index.do#top", "//127.0.0.1/test.do"));
+			
 			assertNull(URLUtility.get("http://localhost", "./"));
 			assertNull(URLUtility.get("http://localhost", "../"));
 			assertNull(URLUtility.get("http://localhost", "./aaa"));
