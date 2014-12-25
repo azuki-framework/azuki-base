@@ -172,7 +172,8 @@ public final class DateUtility {
 	 */
 	public static Calendar getDayOfAddDay(final Calendar aCalendar, final int aDay) {
 		Calendar cln = Calendar.getInstance();
-		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH), aCalendar.get(Calendar.DAY_OF_MONTH) + aDay);
+		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH), aCalendar.get(Calendar.DAY_OF_MONTH) + aDay,
+				aCalendar.get(Calendar.HOUR_OF_DAY), aCalendar.get(Calendar.MINUTE), aCalendar.get(Calendar.SECOND));
 		return cln;
 	}
 
@@ -197,7 +198,7 @@ public final class DateUtility {
 	 */
 	public static Calendar getDayOfPreviousMonth(final Calendar aCalendar) {
 		Calendar cln = Calendar.getInstance();
-		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH) - 1, 1);
+		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH) - 1, 1, 0, 0, 0);
 		return cln;
 	}
 
@@ -222,7 +223,7 @@ public final class DateUtility {
 	 */
 	public static Calendar getDayOfNextMonth(final Calendar aCalendar) {
 		Calendar cln = Calendar.getInstance();
-		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH) + 1, 1);
+		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH) + 1, 1, 0, 0, 0);
 		return cln;
 	}
 
@@ -248,7 +249,7 @@ public final class DateUtility {
 	public static Calendar getLastDayOfMonth(final Calendar aCalendar) {
 		int lastDay = aCalendar.getActualMaximum(Calendar.DATE);
 		Calendar cln = Calendar.getInstance();
-		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH), lastDay);
+		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH), lastDay, 0, 0, 0);
 		return cln;
 	}
 }
