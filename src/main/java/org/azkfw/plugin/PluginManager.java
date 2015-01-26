@@ -53,6 +53,11 @@ public final class PluginManager extends LoggingObject {
 	private List<PluginEntity> plugins;
 
 	/**
+	 * Context
+	 */
+	private Context context;
+
+	/**
 	 * コンストラクタ
 	 * <p>
 	 * インスタンス生成を禁止
@@ -113,6 +118,15 @@ public final class PluginManager extends LoggingObject {
 	}
 
 	/**
+	 * コンテキストを取得する。
+	 * 
+	 * @return コンテキスト
+	 */
+	public static Context getContext() {
+		return INSTANCE.context;
+	}
+
+	/**
 	 * 初期か処理を行います。
 	 */
 	private void doInitialize() {
@@ -149,6 +163,9 @@ public final class PluginManager extends LoggingObject {
 	@SuppressWarnings("unchecked")
 	private void doLoad(final InputStream aStream, final Context aContext) throws PluginServiceException, ConfigurationFormatException, IOException {
 		synchronized (plugins) {
+			// context
+			context = aContext;
+
 			// Load plugin xml file.
 			List<PluginXmlEntity> pluginList;
 			try {
