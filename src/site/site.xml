@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="${project.name}">
+	<bannerLeft>
+		<name>${project.name}</name>
+		<src>./images/logo.png</src>
+		<href>https://github.com/azuki-framework/azuki-base</href>
+	</bannerLeft>
+	<body>
+		<links>
+			<item name="${project.name}" href="${project.url}" />
+			<item name="Project Amateras " href="https://github.com/azuki-framework/azuki-base/" />
+		</links>
+		<menu name="Menu">
+			<item name="Introduction" href="./index.html" />
+			<item name="License" href="./license.html" />
+			<item name="APT Example" href="./example.html" />
+		</menu>
+		<menu ref="parent" />
+		<menu ref="modules" />
+		<menu ref="reports" />
+	</body>
+</project>
