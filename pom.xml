@@ -36,7 +36,7 @@
 			<url>file://${project.build.directory}/../../maven-repository</url>
 		</repository>
 	</distributionManagement>
-	
+
 	<repositories>
 		<repository>
 			<id>AzukiFrameworkRepository</id>
@@ -54,7 +54,7 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-digester3</artifactId>
@@ -86,9 +86,23 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-						    <Built-By>AzukiFramework</Built-By>
+							<Built-By>AzukiFramework</Built-By>
 						</manifestEntries>
 					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<author>true</author>
+					<source>1.7</source>
+					<showPackage>false</showPackage>
+					<showPrivate>true</showPrivate>
+					<encoding>UTF-8</encoding>
+					<charset>UTF-8</charset>
+					<docencoding>UTF-8</docencoding>
 				</configuration>
 			</plugin>
 
