@@ -17,6 +17,8 @@
  */
 package org.azkfw.util;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -210,6 +212,42 @@ public final class MapUtility {
 					result = (Boolean) obj;
 				} else if (obj instanceof String) {
 					result = Boolean.parseBoolean((String) obj);
+				}
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * マップの値を取得する。
+	 * 
+	 * @param map マップ
+	 * @param key キー
+	 * @return 値
+	 */
+	public static Timestamp getTimestamp(final Map<?, ?> map, final Object key) {
+		return getTimestamp(map, key, null);
+	}
+
+	/**
+	 * マップの値を取得する。
+	 * 
+	 * @param map マップ
+	 * @param key キー
+	 * @param def デフォルト値
+	 * @return 値
+	 */
+	public static Timestamp getTimestamp(final Map<?, ?> map, final Object key, final Timestamp def) {
+		Timestamp result = def;
+		if (map.containsKey(key)) {
+			Object obj = map.get(key);
+			if (null != obj) {
+				if (obj instanceof Timestamp) {
+					result = (Timestamp) obj;
+				} else if (obj instanceof Date) {
+					result = new Timestamp(((Date) obj).getTime());
+				} else if (obj instanceof String) {
+					result = Timestamp.valueOf((String) obj);
 				}
 			}
 		}
