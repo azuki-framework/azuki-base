@@ -2,6 +2,7 @@
 
 # Eclipse 
 /.settings
+.project
 .classpath
 
 # Mac System Files #
