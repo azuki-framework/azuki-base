@@ -1,5 +1,9 @@
 *.class
 
+# Eclipse 
+/.settings
+.classpath
+
 # Mac System Files #
 .DS_Store
 
