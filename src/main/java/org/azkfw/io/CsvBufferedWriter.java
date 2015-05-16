@@ -46,10 +46,10 @@ public class CsvBufferedWriter extends BufferedWriter {
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param aWriter ライター
+	 * @param writer ライター
 	 */
-	public CsvBufferedWriter(final Writer aWriter) {
-		super(aWriter);
+	public CsvBufferedWriter(final Writer writer) {
+		super(writer);
 		setup();
 	}
 
@@ -59,38 +59,38 @@ public class CsvBufferedWriter extends BufferedWriter {
 	 * システムデフォルトの文字コードで書き出す。
 	 * </p>
 	 * 
-	 * @param aFile ファイル
+	 * @param file ファイル
 	 * @throws FileNotFoundException {@link FileNotFoundException}
 	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
 	 */
-	public CsvBufferedWriter(final String aFile) throws FileNotFoundException, UnsupportedEncodingException {
-		super(new OutputStreamWriter(new FileOutputStream(aFile), System.getProperty("file.encoding")));
+	public CsvBufferedWriter(final String file) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new OutputStreamWriter(new FileOutputStream(file), System.getProperty("file.encoding")));
 		setup();
 	}
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param aFile ファイル
-	 * @param aCharset 文字エンコーディング
+	 * @param file ファイル
+	 * @param charset 文字エンコーディング
 	 * @throws FileNotFoundException {@link FileNotFoundException}
 	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
 	 */
-	public CsvBufferedWriter(final File aFile, final String aCharset) throws FileNotFoundException, UnsupportedEncodingException {
-		super(new OutputStreamWriter(new FileOutputStream(aFile), aCharset));
+	public CsvBufferedWriter(final File file, final String charset) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new OutputStreamWriter(new FileOutputStream(file), charset));
 		setup();
 	}
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param aFile ファイル
-	 * @param aCharset 文字エンコーディング
+	 * @param file ファイル
+	 * @param charset 文字エンコーディング
 	 * @throws FileNotFoundException {@link FileNotFoundException}
 	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
 	 */
-	public CsvBufferedWriter(final File aFile, final Charset aCharset) throws FileNotFoundException, UnsupportedEncodingException {
-		super(new OutputStreamWriter(new FileOutputStream(aFile), aCharset));
+	public CsvBufferedWriter(final File file, final Charset charset) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new OutputStreamWriter(new FileOutputStream(file), charset));
 		setup();
 	}
 
@@ -100,60 +100,60 @@ public class CsvBufferedWriter extends BufferedWriter {
 	 * システムデフォルトの文字コードで書き出す。
 	 * </p>
 	 * 
-	 * @param aFile ファイル
+	 * @param file ファイル
 	 * @throws FileNotFoundException {@link FileNotFoundException}
 	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
 	 */
-	public CsvBufferedWriter(final File aFile) throws FileNotFoundException, UnsupportedEncodingException {
-		super(new OutputStreamWriter(new FileOutputStream(aFile), System.getProperty("file.encoding")));
+	public CsvBufferedWriter(final File file) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new OutputStreamWriter(new FileOutputStream(file), System.getProperty("file.encoding")));
 		setup();
 	}
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param aFile ファイル
-	 * @param aCharset 文字エンコーディング
+	 * @param file ファイル
+	 * @param charset 文字エンコーディング
 	 * @throws FileNotFoundException {@link FileNotFoundException}
 	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
 	 */
-	public CsvBufferedWriter(final String aFile, final String aCharset) throws FileNotFoundException, UnsupportedEncodingException {
-		super(new OutputStreamWriter(new FileOutputStream(aFile), aCharset));
+	public CsvBufferedWriter(final String file, final String charset) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new OutputStreamWriter(new FileOutputStream(file), charset));
 		setup();
 	}
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param aFile ファイル
-	 * @param aCharset 文字エンコーディング
+	 * @param file ファイル
+	 * @param charset 文字エンコーディング
 	 * @throws FileNotFoundException {@link FileNotFoundException}
 	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
 	 */
-	public CsvBufferedWriter(final String aFile, final Charset aCharset) throws FileNotFoundException, UnsupportedEncodingException {
-		super(new OutputStreamWriter(new FileOutputStream(aFile), aCharset));
+	public CsvBufferedWriter(final String file, final Charset charset) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new OutputStreamWriter(new FileOutputStream(file), charset));
 		setup();
 	}
 
 	/**
 	 * 区切り文字を設定する。
 	 * 
-	 * @param aCharacter 区切り文字
+	 * @param character 区切り文字
 	 */
-	public void setSeparateCharacter(final Character aCharacter) {
-		separateCharacter = aCharacter;
+	public void setSeparateCharacter(final Character character) {
+		separateCharacter = character;
 	}
 
 	/**
 	 * 改行コードを設定する。
 	 * 
-	 * @param aLineSeparator 改行コード、<code>null</code>を指定した場合、システムデフォルト改行コードを設定する。
+	 * @param lineSeparator 改行コード、<code>null</code>を指定した場合、システムデフォルト改行コードを設定する。
 	 */
-	public void setLineSeparator(final String aLineSeparator) {
-		if (null != aLineSeparator) {
-			lineSeparator = aLineSeparator;
+	public void setLineSeparator(final String lineSeparator) {
+		if (null != lineSeparator) {
+			this.lineSeparator = lineSeparator;
 		} else {
-			lineSeparator = getSystemLineSeparator();
+			this.lineSeparator = getSystemLineSeparator();
 		}
 	}
 
@@ -219,10 +219,10 @@ public class CsvBufferedWriter extends BufferedWriter {
 	 * @param aString 文字列
 	 * @return CSV文字列
 	 */
-	private String toCsvString(final String aString) {
+	private String toCsvString(final String string) {
 		String result = "";
-		if (null != aString) {
-			result = aString;
+		if (null != string) {
+			result = string;
 		}
 		boolean dblFlg = false;
 		if (-1 != result.indexOf(separateCharacter)) {

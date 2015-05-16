@@ -15,15 +15,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.azkfw.context;
+package org.azkfw.plugin;
+
+import java.io.InputStream;
+
+import junit.framework.TestCase;
+
+import org.azkfw.context.Context;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /**
- * このクラスは、コンテキスト機能の実装を行うための基底クラスです。
+ * このクラスは、{@link PluginManager}クラスのユニットテストを行うクラスです。
  * 
- * @since 1.0.0
- * @version 1.0.0 2012/08/12
+ * @since 1.6.0
+ * @version 1.6.0 2015/05/16
  * @author Kawakicchi
  */
-public abstract class AbstractContext implements Context {
+@RunWith(JUnit4.class)
+public class PluginManagerTest extends TestCase {
 
+	@Test
+	public void load() throws Exception {
+		PluginManager.getInstance().load("/plugins.xml", new TestContext());
+	}
+
+	private class TestContext implements Context {
+
+		@Override
+		public String getAbstractPath(final String name) {
+			return null;
+		}
+
+		@Override
+		public InputStream getResourceAsStream(final String name) {
+			return this.getClass().getResourceAsStream(name);
+		}
+
+	}
 }

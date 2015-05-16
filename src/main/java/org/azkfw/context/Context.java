@@ -31,16 +31,16 @@ public interface Context {
 	/**
 	 * リソースの絶対パスを取得する。
 	 * 
-	 * @param aName リソース名
+	 * @param name リソース名
 	 * @return 絶対パス
 	 */
-	public String getAbstractPath(final String aName);
+	public String getAbstractPath(final String name);
 
 	/**
 	 * リソースストリームを取得する。
 	 * 
-	 * @param aName リソース名
+	 * @param name リソース名
 	 * @return ストリーム
 	 */
-	public InputStream getResourceAsStream(final String aName);
+	public InputStream getResourceAsStream(final String name);
 }

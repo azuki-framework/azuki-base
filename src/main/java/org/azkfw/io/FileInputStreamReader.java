@@ -35,15 +35,16 @@ import java.nio.charset.Charset;
  */
 public class FileInputStreamReader extends InputStreamReader {
 
+	/** 読み込みサイズ */
 	private long readSize;
 
-	public FileInputStreamReader(final File aFile, final Charset aCharset) throws FileNotFoundException, UnsupportedEncodingException {
-		super(new FileInputStream(aFile), aCharset);
+	public FileInputStreamReader(final File file, final Charset charset) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new FileInputStream(file), charset);
 		readSize = 0;
 	}
 
-	public FileInputStreamReader(final File aFile) throws FileNotFoundException, UnsupportedEncodingException {
-		super(new FileInputStream(aFile), System.getProperty("file.encoding"));
+	public FileInputStreamReader(final File file) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new FileInputStream(file), System.getProperty("file.encoding"));
 		readSize = 0;
 	}
 
@@ -83,5 +84,4 @@ public class FileInputStreamReader extends InputStreamReader {
 		readSize += size;
 		return size;
 	}
-
 }

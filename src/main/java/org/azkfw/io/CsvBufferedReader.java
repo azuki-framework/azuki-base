@@ -46,10 +46,10 @@ public class CsvBufferedReader extends BufferedReader {
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param aReader リーダー
+	 * @param reader リーダー
 	 */
-	public CsvBufferedReader(final Reader aReader) {
-		super(aReader);
+	public CsvBufferedReader(final Reader reader) {
+		super(reader);
 	}
 
 	/**
@@ -58,36 +58,36 @@ public class CsvBufferedReader extends BufferedReader {
 	 * システムデフォルトの文字コードで読み込む。
 	 * </p>
 	 * 
-	 * @param aFile ファイル
+	 * @param file ファイル
 	 * @throws FileNotFoundException {@link FileNotFoundException}
 	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
 	 */
-	public CsvBufferedReader(final String aFile) throws FileNotFoundException, UnsupportedEncodingException {
-		super(new InputStreamReader(new FileInputStream(aFile), System.getProperty("file.encoding")));
+	public CsvBufferedReader(final String file) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new InputStreamReader(new FileInputStream(file), System.getProperty("file.encoding")));
 	}
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param aFile ファイル
-	 * @param aCharset 文字エンコーディング
+	 * @param file ファイル
+	 * @param charset 文字エンコーディング
 	 * @throws FileNotFoundException {@link FileNotFoundException}
 	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
 	 */
-	public CsvBufferedReader(final String aFile, final String aCharset) throws FileNotFoundException, UnsupportedEncodingException {
-		super(new InputStreamReader(new FileInputStream(aFile), aCharset));
+	public CsvBufferedReader(final String file, final String charset) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new InputStreamReader(new FileInputStream(file), charset));
 	}
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param aFile ファイル
-	 * @param aCharset 文字エンコーディング
+	 * @param file ファイル
+	 * @param charset 文字エンコーディング
 	 * @throws FileNotFoundException {@link FileNotFoundException}
 	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
 	 */
-	public CsvBufferedReader(final String aFile, final Charset aCharset) throws FileNotFoundException, UnsupportedEncodingException {
-		super(new InputStreamReader(new FileInputStream(aFile), aCharset));
+	public CsvBufferedReader(final String file, final Charset charset) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new InputStreamReader(new FileInputStream(file), charset));
 	}
 
 	/**
@@ -96,45 +96,45 @@ public class CsvBufferedReader extends BufferedReader {
 	 * システムデフォルトの文字コードで読み込む。
 	 * </p>
 	 * 
-	 * @param aFile ファイル
+	 * @param file ファイル
 	 * @throws FileNotFoundException {@link FileNotFoundException}
 	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
 	 */
-	public CsvBufferedReader(final File aFile) throws FileNotFoundException, UnsupportedEncodingException {
-		super(new InputStreamReader(new FileInputStream(aFile), System.getProperty("file.encoding")));
+	public CsvBufferedReader(final File file) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new InputStreamReader(new FileInputStream(file), System.getProperty("file.encoding")));
 	}
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param aFile ファイル
-	 * @param aCharset 文字エンコーディング
+	 * @param file ファイル
+	 * @param charset 文字エンコーディング
 	 * @throws FileNotFoundException {@link FileNotFoundException}
 	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
 	 */
-	public CsvBufferedReader(final File aFile, final String aCharset) throws FileNotFoundException, UnsupportedEncodingException {
-		super(new InputStreamReader(new FileInputStream(aFile), aCharset));
+	public CsvBufferedReader(final File file, final String charset) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new InputStreamReader(new FileInputStream(file), charset));
 	}
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param aFile ファイル
-	 * @param aCharset 文字エンコーディング
+	 * @param file ファイル
+	 * @param charset 文字エンコーディング
 	 * @throws FileNotFoundException {@link FileNotFoundException}
 	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
 	 */
-	public CsvBufferedReader(final File aFile, final Charset aCharset) throws FileNotFoundException, UnsupportedEncodingException {
-		super(new InputStreamReader(new FileInputStream(aFile), aCharset));
+	public CsvBufferedReader(final File file, final Charset charset) throws FileNotFoundException, UnsupportedEncodingException {
+		super(new InputStreamReader(new FileInputStream(file), charset));
 	}
 
 	/**
 	 * 区切り文字を設定する。
 	 * 
-	 * @param aCharacter 区切り文字
+	 * @param character 区切り文字
 	 */
-	public void setSeparateCharacter(final Character aCharacter) {
-		separateCharacter = aCharacter;
+	public void setSeparateCharacter(final Character character) {
+		separateCharacter = character;
 	}
 
 	/**
@@ -155,20 +155,20 @@ public class CsvBufferedReader extends BufferedReader {
 	/**
 	 * CSV行を解析しデータ単位にする。
 	 * 
-	 * @param aLine CSV行文字列
+	 * @param line CSV行文字列
 	 * @return データ
 	 */
-	private List<String> purseLine(final String aLine) {
+	private List<String> purseLine(final String line) {
 		List<String> result = new ArrayList<String>();
-		if (StringUtility.isNotEmpty(aLine)) {
+		if (StringUtility.isNotEmpty(line)) {
 			StringBuilder sb = new StringBuilder();
 			boolean dblFlg = false;
-			for (int i = 0; i < aLine.length(); i++) {
-				char c = aLine.charAt(i);
+			for (int i = 0; i < line.length(); i++) {
+				char c = line.charAt(i);
 				if (dblFlg) {
 					if ('"' == c) {
-						if (aLine.length() > i + 1) {
-							if ('"' == aLine.charAt(i + 1)) {
+						if (line.length() > i + 1) {
+							if ('"' == line.charAt(i + 1)) {
 								sb.append('"');
 								i++;
 							} else {

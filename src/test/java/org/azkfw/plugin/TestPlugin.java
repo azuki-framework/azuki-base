@@ -15,15 +15,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.azkfw.context;
+package org.azkfw.plugin;
+
+import java.io.IOException;
+
+import org.azkfw.configuration.ConfigurationFormatException;
 
 /**
- * このクラスは、コンテキスト機能の実装を行うための基底クラスです。
+ * このクラスは、テスト用プラグインクラスです。
  * 
- * @since 1.0.0
- * @version 1.0.0 2012/08/12
  * @author Kawakicchi
  */
-public abstract class AbstractContext implements Context {
+public class TestPlugin implements Plugin {
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.azkfw.plugin.Plugin#initialize()
+	 */
+	@Override
+	public void initialize() throws PluginServiceException {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.azkfw.plugin.Plugin#destroy()
+	 */
+	@Override
+	public void destroy() throws PluginServiceException {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.azkfw.plugin.Plugin#load()
+	 */
+	@Override
+	public void load() throws PluginServiceException, ConfigurationFormatException, IOException {
+		// TODO Auto-generated method stub
+
+	}
 
 }

@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.digester3.Digester;
+import org.apache.commons.digester.Digester;
 import org.azkfw.configuration.Configuration;
 import org.azkfw.configuration.ConfigurationFormatException;
 import org.azkfw.configuration.ConfigurationSupport;
@@ -69,16 +69,25 @@ public final class PluginManager extends LoggingObject {
 	}
 
 	/**
+	 * インスタンスを取得する。
+	 * 
+	 * @return インスタンス
+	 */
+	public static PluginManager getInstance() {
+		return INSTANCE;
+	}
+
+	/**
 	 * 初期か処理を行います。
 	 */
-	public static void initialize() {
+	public void initialize() {
 		INSTANCE.doInitialize();
 	}
 
 	/**
 	 * 解放処理を行います。
 	 */
-	public static void destroy() {
+	public void destroy() {
 		INSTANCE.doDestory();
 	}
 
@@ -91,7 +100,7 @@ public final class PluginManager extends LoggingObject {
 	 * @throws ConfigurationFormatException 設定ファイルに問題がある場合
 	 * @throws IOException 入出力操作に起因する問題が発生した場合
 	 */
-	public static void load(final String file, final Context context) throws PluginServiceException, ConfigurationFormatException, IOException {
+	public void load(final String file, final Context context) throws PluginServiceException, ConfigurationFormatException, IOException {
 		INSTANCE.doLoad(context.getResourceAsStream(file), context);
 	}
 
@@ -104,7 +113,7 @@ public final class PluginManager extends LoggingObject {
 	 * @throws ConfigurationFormatException 設定ファイルに問題がある場合
 	 * @throws IOException 入出力操作に起因する問題が発生した場合
 	 */
-	public static void load(final InputStream stream, final Context context) throws PluginServiceException, ConfigurationFormatException, IOException {
+	public void load(final InputStream stream, final Context context) throws PluginServiceException, ConfigurationFormatException, IOException {
 		INSTANCE.doLoad(stream, context);
 	}
 
@@ -113,7 +122,7 @@ public final class PluginManager extends LoggingObject {
 	 * 
 	 * @return プラグイン情報リスト
 	 */
-	public static List<PluginEntity> getPluginList() {
+	public List<PluginEntity> getPluginList() {
 		return INSTANCE.doGetPluginList();
 	}
 
@@ -122,7 +131,7 @@ public final class PluginManager extends LoggingObject {
 	 * 
 	 * @return コンテキスト
 	 */
-	public static Context getContext() {
+	public Context getContext() {
 		return INSTANCE.context;
 	}
 
@@ -174,7 +183,7 @@ public final class PluginManager extends LoggingObject {
 				digester.addObjectCreate("azuki/plugins/plugin", PluginXmlEntity.class);
 				digester.addSetProperties("azuki/plugins/plugin");
 				digester.addSetNext("azuki/plugins/plugin", "add");
-				pluginList = digester.parse(aStream);
+				pluginList = (List<PluginXmlEntity>) digester.parse(aStream);
 			} catch (SAXException ex) {
 				error(ex);
 				throw new ConfigurationFormatException(ex);
