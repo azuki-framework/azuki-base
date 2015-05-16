@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE azuki [
+  <!ELEMENT books   (plugins)>
+  <!ELEMENT plugins (plugin*)>
+  <!ATTLIST plugin name   CDATA #REQUIRED>
+  <!ATTLIST plugin plugin CDATA #REQUIRED>
+  <!ATTLIST plugin config CDATA #IMPLIED >
+]>
 <azuki>
 	<plugins>
-		<plugin name="TestPlugin" plugin="org.azkfw.plugin.TestPlugin" config=""/>
+		<plugin name="TestPlugin" plugin="org.azkfw.plugin.TestPlugin"
+			config="" />
 	</plugins>
 </azuki>
