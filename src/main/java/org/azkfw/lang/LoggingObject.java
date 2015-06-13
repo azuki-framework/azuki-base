@@ -39,7 +39,7 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * コンストラクタ
 	 */
 	public LoggingObject() {
-		logger = LoggerFactory.create();
+		logger = LoggerFactory.create(this.getClass());
 	}
 
 	/**

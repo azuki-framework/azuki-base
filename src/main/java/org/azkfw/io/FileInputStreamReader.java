@@ -38,6 +38,14 @@ public class FileInputStreamReader extends InputStreamReader {
 	/** 読み込みサイズ */
 	private long readSize;
 
+	/**
+	 * コンストラクタ
+	 * 
+	 * @param file ファイル
+	 * @param charset 文字コード
+	 * @throws FileNotFoundException {@link FileNotFoundException}
+	 * @throws UnsupportedEncodingException {@link UnsupportedEncodingException}
+	 */
 	public FileInputStreamReader(final File file, final Charset charset) throws FileNotFoundException, UnsupportedEncodingException {
 		super(new FileInputStream(file), charset);
 		readSize = 0;
@@ -48,10 +56,16 @@ public class FileInputStreamReader extends InputStreamReader {
 		readSize = 0;
 	}
 
+	/**
+	 * トータル読み込みサイズを取得する。
+	 * 
+	 * @return サイズ
+	 */
 	public long getTotalReadSize() {
 		return readSize;
 	}
 
+	@Override
 	public int read() throws IOException {
 		int ch = super.read();
 		if (-1 != ch) {
@@ -60,18 +74,21 @@ public class FileInputStreamReader extends InputStreamReader {
 		return ch;
 	}
 
+	@Override
 	public int read(char[] cbuf) throws IOException {
 		int size = super.read(cbuf);
 		readSize += size;
 		return size;
 	}
 
+	@Override
 	public int read(char[] cbuf, int offset, int length) throws IOException {
 		int size = super.read(cbuf, offset, length);
 		readSize += size;
 		return size;
 	}
 
+	@Override
 	public int read(CharBuffer target) throws IOException {
 		int size = super.read(target);
 		readSize += size;
@@ -79,6 +96,7 @@ public class FileInputStreamReader extends InputStreamReader {
 		return size;
 	}
 
+	@Override
 	public long skip(long n) throws IOException {
 		long size = super.skip(n);
 		readSize += size;

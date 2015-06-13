@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -114,9 +115,9 @@ public final class FileUtility {
 			aDestFile.mkdirs();
 			File[] files = aSrcFile.listFiles();
 			for (File file : files) {
-				String srcFile = aSrcFile.getAbsolutePath() + "\\" + file.getName();
-				String destFile = aDestFile.getAbsolutePath() + "\\" + file.getName();
-				copy(new File(srcFile), new File(destFile));
+				File srcFile = Paths.get(aSrcFile.getAbsolutePath(), file.getName()).toFile();
+				File destFile = Paths.get(aDestFile.getAbsolutePath(), file.getName()).toFile();
+				copy(srcFile, destFile);
 			}
 		} else if (aSrcFile.isFile()) {
 			FileChannel srcChannel = null;
