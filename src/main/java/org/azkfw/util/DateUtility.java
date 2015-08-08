@@ -43,149 +43,151 @@ public final class DateUtility {
 	/**
 	 * 日付を作成する。
 	 * 
-	 * @param aYear 年
-	 * @param aMonth 月(1-12)
-	 * @param aDate 日
-	 * @param aHour 時
-	 * @param aMinute 分
-	 * @param aSecond 秒
+	 * @param year 年
+	 * @param month 月(1-12)
+	 * @param day 日
+	 * @param hour 時
+	 * @param minute 分
+	 * @param second 秒
 	 * @return 日付
 	 */
-	public static Date createDate(final int aYear, final int aMonth, final int aDate, final int aHour, final int aMinute, final int aSecond) {
-		Calendar c = Calendar.getInstance();
-		c.set(aYear, aMonth - 1, aDate, aHour, aMinute, aSecond);
-		return c.getTime();
+	public static Date createDate(final int year, final int month, final int day, final int hour, final int minute, final int second) {
+		return createCalendar(year, month, day, hour, minute, second).getTime();
 	}
 
 	/**
 	 * 日付を作成する。
 	 * 
-	 * @param aYear 年
-	 * @param aMonth 月(1-12)
-	 * @param aDate 日
-	 * @param aHour 時
-	 * @param aMinute 分
-	 * @param aSecond 秒
+	 * @param year 年
+	 * @param month 月(1-12)
+	 * @param day 日
+	 * @param hour 時
+	 * @param minute 分
+	 * @param second 秒
 	 * @return 日付
 	 */
-	public static Calendar createCalendar(final int aYear, final int aMonth, final int aDate, final int aHour, final int aMinute, final int aSecond) {
+	public static Calendar createCalendar(final int year, final int month, final int day, final int hour, final int minute, final int second) {
 		Calendar c = Calendar.getInstance();
-		c.set(aYear, aMonth - 1, aDate, aHour, aMinute, aSecond);
+		c.set(Calendar.YEAR, year);
+		c.set(Calendar.MONTH, month - 1);
+		c.set(Calendar.DAY_OF_MONTH, day);
+		c.set(Calendar.HOUR_OF_DAY, hour);
+		c.set(Calendar.MINUTE, minute);
+		c.set(Calendar.SECOND, second);
+		c.set(Calendar.MILLISECOND, 0);
 		return c;
 	}
 
 	/**
 	 * 日付を作成する。
 	 * 
-	 * @param aYear 年
-	 * @param aMonth 月(1-12)
-	 * @param aDate 日
-	 * @param aHour 時
-	 * @param aMinute 分
-	 * @param aSecond 秒
+	 * @param year 年
+	 * @param month 月(1-12)
+	 * @param day 日
+	 * @param hour 時
+	 * @param minute 分
+	 * @param second 秒
 	 * @return 日付
 	 */
-	public static Timestamp createTimestamp(final int aYear, final int aMonth, final int aDate, final int aHour, final int aMinute, final int aSecond) {
-		Calendar c = Calendar.getInstance();
-		c.set(aYear, aMonth - 1, aDate, aHour, aMinute, aSecond);
-		return new Timestamp(c.getTimeInMillis());
+	public static Timestamp createTimestamp(final int year, final int month, final int day, final int hour, final int minute, final int second) {
+		return new Timestamp(createCalendar(year, month, day, hour, minute, second).getTimeInMillis());
 	}
 
 	/**
 	 * カレンダー型として取得する。
 	 * 
-	 * @param aDate 日付
+	 * @param date 日付
 	 * @return カレンダー型
 	 */
-	public static Calendar toCalender(final Date aDate) {
+	public static Calendar toCalender(final Date date) {
 		Calendar c = Calendar.getInstance();
-		c.setTimeInMillis(aDate.getTime());
+		c.setTimeInMillis(date.getTime());
 		return c;
 	}
 
 	/**
 	 * カレンダー型として取得する。
 	 * 
-	 * @param aDate 日付
+	 * @param date 日付
 	 * @return カレンダー型
 	 */
-	public static Calendar toCalender(final java.sql.Date aDate) {
+	public static Calendar toCalender(final java.sql.Date date) {
 		Calendar c = Calendar.getInstance();
-		c.setTimeInMillis(aDate.getTime());
+		c.setTimeInMillis(date.getTime());
 		return c;
 	}
 
 	/**
 	 * タイムスタンプ型として取得する。
 	 * 
-	 * @param aDate 日付
+	 * @param date 日付
 	 * @return タイムスタンプ型
 	 */
-	public static Timestamp toTimestamp(final Date aDate) {
-		Timestamp ts = new Timestamp(aDate.getTime());
+	public static Timestamp toTimestamp(final Date date) {
+		Timestamp ts = new Timestamp(date.getTime());
 		return ts;
 	}
 
 	/**
 	 * タイムスタンプ型として取得する。
 	 * 
-	 * @param aDate 日付
+	 * @param date 日付
 	 * @return タイムスタンプ型
 	 */
-	public static Timestamp toTimestamp(final java.sql.Date aDate) {
-		Timestamp ts = new Timestamp(aDate.getTime());
+	public static Timestamp toTimestamp(final java.sql.Date date) {
+		Timestamp ts = new Timestamp(date.getTime());
 		return ts;
 	}
 
 	/**
 	 * カレンダー型として取得する。
 	 * 
-	 * @param aTimestamp 日付
+	 * @param timestamp 日付
 	 * @return カレンダー型
 	 */
-	public static Calendar toCalender(final Timestamp aTimestamp) {
+	public static Calendar toCalender(final Timestamp timestamp) {
 		Calendar c = Calendar.getInstance();
-		c.setTimeInMillis(aTimestamp.getTime());
+		c.setTimeInMillis(timestamp.getTime());
 		return c;
 	}
 
 	/**
 	 * 対象日に日数を加算した日付を取得する。
 	 * 
-	 * @param aDate 対象日
-	 * @param aDay 日数
+	 * @param date 対象日
+	 * @param day 日数
 	 * @return 日付
 	 */
-	public static Date getDayOfAddDay(final Date aDate, final int aDay) {
+	public static Date getDayOfAddDay(final Date date, final int day) {
 		Calendar src = Calendar.getInstance();
-		src.setTime(aDate);
-		Calendar dst = getDayOfAddDay(src, aDay);
+		src.setTime(date);
+		Calendar dst = getDayOfAddDay(src, day);
 		return dst.getTime();
 	}
 
 	/**
 	 * 対象日に日数を加算した日付を取得する。
 	 * 
-	 * @param aCalendar 対象日
-	 * @param aDay 日数
+	 * @param calendar 対象日
+	 * @param day 日数
 	 * @return 日付
 	 */
-	public static Calendar getDayOfAddDay(final Calendar aCalendar, final int aDay) {
+	public static Calendar getDayOfAddDay(final Calendar calendar, final int day) {
 		Calendar cln = Calendar.getInstance();
-		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH), aCalendar.get(Calendar.DAY_OF_MONTH) + aDay,
-				aCalendar.get(Calendar.HOUR_OF_DAY), aCalendar.get(Calendar.MINUTE), aCalendar.get(Calendar.SECOND));
+		cln.setTimeInMillis(calendar.getTimeInMillis());
+		cln.add(Calendar.DAY_OF_MONTH, day);
 		return cln;
 	}
 
 	/**
 	 * 対象日の前月1日を取得する。
 	 * 
-	 * @param aDate 対象日
+	 * @param date 対象日
 	 * @return 前月1日
 	 */
-	public static Date getDayOfPreviousMonth(final Date aDate) {
+	public static Date getDayOfPreviousMonth(final Date date) {
 		Calendar src = Calendar.getInstance();
-		src.setTime(aDate);
+		src.setTime(date);
 		Calendar dst = getDayOfPreviousMonth(src);
 		return dst.getTime();
 	}
@@ -193,24 +195,24 @@ public final class DateUtility {
 	/**
 	 * 対象日の前月1日を取得する。
 	 * 
-	 * @param aCalendar 対象日
+	 * @param calendar 対象日
 	 * @return 前月1日
 	 */
-	public static Calendar getDayOfPreviousMonth(final Calendar aCalendar) {
+	public static Calendar getDayOfPreviousMonth(final Calendar calendar) {
 		Calendar cln = Calendar.getInstance();
-		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH) - 1, 1, 0, 0, 0);
+		cln.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) - 1, 1, 0, 0, 0);
 		return cln;
 	}
 
 	/**
 	 * 対象日の翌月１日を取得する。
 	 * 
-	 * @param aDate 対象日
+	 * @param date 対象日
 	 * @return 翌月1日
 	 */
-	public static Date getDayOfNextMonth(final Date aDate) {
+	public static Date getDayOfNextMonth(final Date date) {
 		Calendar src = Calendar.getInstance();
-		src.setTime(aDate);
+		src.setTime(date);
 		Calendar dst = getDayOfNextMonth(src);
 		return dst.getTime();
 	}
@@ -218,24 +220,24 @@ public final class DateUtility {
 	/**
 	 * 対象日の翌月１日を取得する。
 	 * 
-	 * @param aCalendar 対象日
+	 * @param calendar 対象日
 	 * @return 翌月1日
 	 */
-	public static Calendar getDayOfNextMonth(final Calendar aCalendar) {
+	public static Calendar getDayOfNextMonth(final Calendar calendar) {
 		Calendar cln = Calendar.getInstance();
-		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH) + 1, 1, 0, 0, 0);
+		cln.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, 1, 0, 0, 0);
 		return cln;
 	}
 
 	/**
 	 * 対象日の月の最終日を取得する。
 	 * 
-	 * @param aDate 対象日
+	 * @param date 対象日
 	 * @return 最終日
 	 */
-	public static Date getLastDayOfMonth(final Date aDate) {
+	public static Date getLastDayOfMonth(final Date date) {
 		Calendar src = Calendar.getInstance();
-		src.setTime(aDate);
+		src.setTime(date);
 		Calendar dst = getLastDayOfMonth(src);
 		return dst.getTime();
 	}
@@ -243,13 +245,13 @@ public final class DateUtility {
 	/**
 	 * 対象日の月の最終日を取得する。
 	 * 
-	 * @param aCalendar 対象日
+	 * @param calendar 対象日
 	 * @return 最終日
 	 */
-	public static Calendar getLastDayOfMonth(final Calendar aCalendar) {
-		int lastDay = aCalendar.getActualMaximum(Calendar.DATE);
+	public static Calendar getLastDayOfMonth(final Calendar calendar) {
+		int lastDay = calendar.getActualMaximum(Calendar.DATE);
 		Calendar cln = Calendar.getInstance();
-		cln.set(aCalendar.get(Calendar.YEAR), aCalendar.get(Calendar.MONTH), lastDay, 0, 0, 0);
+		cln.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), lastDay, 0, 0, 0);
 		return cln;
 	}
 }

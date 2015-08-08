@@ -43,26 +43,37 @@ public final class MapUtility {
 	/**
 	 * マップが、エンプティーか判断する。
 	 * 
-	 * @param aMap マップ
+	 * @param map マップ
 	 * @return マップが<code>null</code>かエンプティーの場合、<code>true</code>を返す。
 	 */
-	public static boolean isEmpty(final Map<?, ?> aMap) {
-		return !(isNotEmpty(aMap));
+	public static boolean isEmpty(final Map<?, ?> map) {
+		return !(isNotEmpty(map));
 	}
 
 	/**
 	 * マップが、エンプティーか判断する。
 	 * 
-	 * @param aMap マップ
+	 * @param map マップ
 	 * @return マップが<code>null</code>かエンプテー以外の場合、<code>true</code>を返す。
 	 */
-	public static boolean isNotEmpty(final Map<?, ?> aMap) {
-		if (null != aMap) {
-			if (!aMap.isEmpty()) {
+	public static boolean isNotEmpty(final Map<?, ?> map) {
+		if (null != map) {
+			if (!map.isEmpty()) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * マップの値を取得する。
+	 * 
+	 * @param map マップ
+	 * @param key キー
+	 * @return 値
+	 */
+	public static Object getObject(final Map<?, ?> map, final Object key) {
+		return getObject(map, key, null);
 	}
 
 	/**

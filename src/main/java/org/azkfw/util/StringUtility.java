@@ -42,12 +42,12 @@ public final class StringUtility {
 	/**
 	 * 文字列が、エンプティーでないか判断する。
 	 * 
-	 * @param aString 文字列
+	 * @param string 文字列
 	 * @return 文字列が<code>null</code>かブランク以外の場合、<code>true</code>を返す。
 	 */
-	public static boolean isNotEmpty(final String aString) {
-		if (null != aString) {
-			if (!EMPTY.equals(aString)) {
+	public static boolean isNotEmpty(final String string) {
+		if (null != string) {
+			if (!EMPTY.equals(string)) {
 				return true;
 			}
 		}
@@ -57,11 +57,11 @@ public final class StringUtility {
 	/**
 	 * 文字列が、エンプティーか判断する。
 	 * 
-	 * @param aString 文字列
+	 * @param string 文字列
 	 * @return 文字列が<code>null</code>かブランクの場合、<code>true</code>を返す。
 	 */
-	public static boolean isEmpty(final String aString) {
-		return !(isNotEmpty(aString));
+	public static boolean isEmpty(final String string) {
+		return !(isNotEmpty(string));
 	}
 
 	/**
@@ -97,13 +97,13 @@ public final class StringUtility {
 	/**
 	 * オブジェクトを文字列として取得する。 オブジェクトが<code>null</code>の場合、空文字を返す。
 	 * 
-	 * @param aObject オブジェクト
+	 * @param object オブジェクト
 	 * @return 文字列
 	 */
-	public static String toStringEmpty(final Object aObject) {
+	public static String toStringEmpty(final Object object) {
 		String string = EMPTY;
-		if (null != aObject) {
-			string = aObject.toString();
+		if (null != object) {
+			string = object.toString();
 		}
 		return string;
 	}
@@ -111,13 +111,13 @@ public final class StringUtility {
 	/**
 	 * オブジェクトを文字列として取得する。 オブジェクトが<code>null</code>の場合、<code>null</code>を返す。
 	 * 
-	 * @param aObject オブジェクト
+	 * @param object オブジェクト
 	 * @return 空文字
 	 */
-	public static String toStringNull(final Object aObject) {
+	public static String toStringNull(final Object object) {
 		String string = null;
-		if (null != aObject) {
-			string = aObject.toString();
+		if (null != object) {
+			string = object.toString();
 		}
 		return string;
 	}
@@ -125,28 +125,28 @@ public final class StringUtility {
 	/**
 	 * 文字列をトリムする。
 	 * 
-	 * @param aString 文字列
+	 * @param string 文字列
 	 * @return 文字列
 	 */
-	public static String trim(final String aString) {
-		String string = aString;
-		if (StringUtility.isNotEmpty(string)) {
-			string = string.trim();
+	public static String trim(final String string) {
+		String str = string;
+		if (StringUtility.isNotEmpty(str)) {
+			str = str.trim();
 		}
-		return string;
+		return str;
 	}
 
 	/**
 	 * 文字列をキャメル表記で取得する。
 	 * 
-	 * @param aString 文字列
+	 * @param string 文字列
 	 * @return キャメル表記文字列
 	 */
-	public static String toCamel(final String aString) {
+	public static String toCamelcase(final String string) {
 		StringBuilder s = new StringBuilder();
 		boolean big = false;
-		for (int i = 0; i < aString.length(); i++) {
-			char c = aString.charAt(i);
+		for (int i = 0; i < string.length(); i++) {
+			char c = string.charAt(i);
 			if ('_' == c) {
 				big = true;
 			} else {
