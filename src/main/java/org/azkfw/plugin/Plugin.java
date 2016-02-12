@@ -52,4 +52,12 @@ public interface Plugin {
 	 * @throws IOException IO操作時に問題が発生した場合
 	 */
 	public void load() throws PluginServiceException, ConfigurationFormatException, IOException;
+
+	/**
+	 * オプジェクトにサポート機能を付与する。
+	 * 
+	 * @param obj オプジェクト
+	 * @throws PluginServiceException プラグイン機能に起因する問題が発生した場合
+	 */
+	public void support(final Object obj) throws PluginServiceException;
 }

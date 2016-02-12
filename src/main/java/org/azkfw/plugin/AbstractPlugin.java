@@ -24,7 +24,7 @@ import org.azkfw.configuration.Configuration;
 import org.azkfw.configuration.ConfigurationSupport;
 import org.azkfw.context.Context;
 import org.azkfw.context.ContextSupport;
-import org.azkfw.lang.LoggingObject;
+import org.azkfw.log.LoggingObject;
 
 /**
  * このクラスは、プラグイン機能の実装を行うための基底クラスです。
@@ -115,6 +115,11 @@ public abstract class AbstractPlugin extends LoggingObject implements Plugin, Co
 		debug(this.getClass().getSimpleName() + ".destroy()");
 		doDestroy();
 	}
+	
+	@Override
+	public final void support(final Object obj) throws PluginServiceException {
+		doSupport(obj);
+	}
 
 	/**
 	 * 初期化処理を行う。
@@ -138,5 +143,15 @@ public abstract class AbstractPlugin extends LoggingObject implements Plugin, Co
 	 * @throws PluginServiceException プラグイン機能に起因する問題が発生した場合
 	 */
 	protected abstract void doDestroy() throws PluginServiceException;
+
+	/**
+	 * オプジェクトにサポート機能を付与する。
+	 * 
+	 * @param obj オプジェクト
+	 * @throws PluginServiceException プラグイン機能に起因する問題が発生した場合
+	 */
+	protected void doSupport(final Object obj) throws PluginServiceException {
+		
+	}
 
 }

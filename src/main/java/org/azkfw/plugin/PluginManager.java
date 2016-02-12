@@ -23,13 +23,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.digester.Digester;
+import org.apache.commons.digester.ObjectCreateRule;
+import org.apache.commons.digester.SetNextRule;
+import org.apache.commons.digester.SetPropertiesRule;
 import org.azkfw.configuration.Configuration;
 import org.azkfw.configuration.ConfigurationFormatException;
 import org.azkfw.configuration.ConfigurationSupport;
 import org.azkfw.configuration.InputStreamConfiguration;
 import org.azkfw.context.Context;
 import org.azkfw.context.ContextSupport;
-import org.azkfw.lang.LoggingObject;
+import org.azkfw.log.LoggingObject;
 import org.azkfw.util.StringUtility;
 import org.xml.sax.SAXException;
 
@@ -64,7 +67,6 @@ public final class PluginManager extends LoggingObject {
 	 * </p>
 	 */
 	private PluginManager() {
-		super(PluginManager.class);
 		plugins = new ArrayList<PluginEntity>();
 	}
 
@@ -118,6 +120,21 @@ public final class PluginManager extends LoggingObject {
 	}
 
 	/**
+	 * オプジェクトにサポート機能を付与する。
+	 * 
+	 * @param obj オプジェクト
+	 * @throws PluginServiceException プラグイン機能に起因する問題が発生した場合
+	 */
+	public void support(final Object obj) throws PluginServiceException {
+		if (obj instanceof ContextSupport) {
+			((ContextSupport) obj).setContext(getContext());
+		}
+		for (PluginEntity plugin : plugins) {
+			plugin.getPlugin().support(obj);
+		}
+	}
+
+	/**
 	 * プラグイン情報リストを取得する。
 	 * 
 	 * @return プラグイン情報リスト
@@ -159,31 +176,26 @@ public final class PluginManager extends LoggingObject {
 			plugins.clear();
 		}
 	}
-
+	
 	/**
 	 * プラグイン情報をロードします。
 	 * 
-	 * @param aStream プラグイン情報
-	 * @param aContext コンテキスト
+	 * @param stream プラグイン情報
+	 * @param context コンテキスト
 	 * @throws PluginServiceException プラグイン機能に起因する問題が発生した場合
 	 * @throws ConfigurationFormatException 設定ファイルに問題がある場合
 	 * @throws IOException 入出力操作に起因する問題が発生した場合
 	 */
 	@SuppressWarnings("unchecked")
-	private void doLoad(final InputStream aStream, final Context aContext) throws PluginServiceException, ConfigurationFormatException, IOException {
+	private void doLoad(final InputStream stream, final Context context) throws PluginServiceException, ConfigurationFormatException, IOException {
 		synchronized (plugins) {
-			// context
-			context = aContext;
+			this.context = context;
 
 			// Load plugin xml file.
 			List<PluginXmlEntity> pluginList;
 			try {
-				Digester digester = new Digester();
-				digester.addObjectCreate("azuki/plugins", ArrayList.class);
-				digester.addObjectCreate("azuki/plugins/plugin", PluginXmlEntity.class);
-				digester.addSetProperties("azuki/plugins/plugin");
-				digester.addSetNext("azuki/plugins/plugin", "add");
-				pluginList = (List<PluginXmlEntity>) digester.parse(aStream);
+				Digester digester = getDigester();
+				pluginList = (List<PluginXmlEntity>) digester.parse(stream);
 			} catch (SAXException ex) {
 				error(ex);
 				throw new ConfigurationFormatException(ex);
@@ -223,13 +235,13 @@ public final class PluginManager extends LoggingObject {
 				Plugin plugin = plugins.get(i).getPlugin();
 				// Support context
 				if (plugin instanceof ContextSupport) {
-					((ContextSupport) plugin).setContext(aContext);
+					((ContextSupport) plugin).setContext(this.context);
 				}
 				// Support configuration
 				if (plugin instanceof ConfigurationSupport) {
 					String config = plugins.get(i).config;
 					if (StringUtility.isNotEmpty(config)) {
-						Configuration configuration = new InputStreamConfiguration(aContext.getResourceAsStream(config));
+						Configuration configuration = new InputStreamConfiguration(this.context.getResourceAsStream(config));
 						((ConfigurationSupport) plugin).setConfiguration(configuration);
 					} else {
 						warn("Not setting config file.[" + plugins.get(i).getName() + "]");
@@ -260,6 +272,16 @@ public final class PluginManager extends LoggingObject {
 		return plugins;
 	}
 
+	private Digester getDigester() {
+		Digester digester = new Digester();
+		digester.addRule("azuki-plugin/plugin-list", new ObjectCreateRule(ArrayList.class));
+		
+		digester.addRule("azuki-plugin/plugin-list/plugin", new ObjectCreateRule(PluginXmlEntity.class));
+		digester.addRule("azuki-plugin/plugin-list/plugin", new SetPropertiesRule());
+		digester.addRule("azuki-plugin/plugin-list/plugin", new SetNextRule("add"));
+		return digester;
+	}
+	
 	/**
 	 * このクラスは、プラグイン情報を保持するエンティティクラスです。
 	 * 

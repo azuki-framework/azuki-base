@@ -28,37 +28,23 @@ import org.azkfw.configuration.ConfigurationFormatException;
  */
 public class TestPlugin implements Plugin {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.azkfw.plugin.Plugin#initialize()
-	 */
 	@Override
 	public void initialize() throws PluginServiceException {
-		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.azkfw.plugin.Plugin#destroy()
-	 */
 	@Override
 	public void destroy() throws PluginServiceException {
-		// TODO Auto-generated method stub
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.azkfw.plugin.Plugin#load()
-	 */
 	@Override
 	public void load() throws PluginServiceException, ConfigurationFormatException, IOException {
-		// TODO Auto-generated method stub
 
 	}
-
+	
+	@Override
+	public void support(final Object obj) throws PluginServiceException {
+		
+	}
 }

@@ -15,11 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.azkfw.lang;
+package org.azkfw.log;
 
-import org.azkfw.log.Logger;
-import org.azkfw.log.LoggerFactory;
-import org.azkfw.log.LoggerSupport;
+import org.azkfw.lang.PrimitiveObject;
 
 /**
  * このクラスは、オブジェクトの基底となるクラスです。
@@ -28,7 +26,7 @@ import org.azkfw.log.LoggerSupport;
  * @version 1.0.0 2013/06/14
  * @author Kawakicchi
  */
-public abstract class LoggingObject extends PrimitiveObject implements LoggerSupport {
+public abstract class LoggingObject extends PrimitiveObject implements Logger,LoggerSupport {
 
 	/**
 	 * Logger
@@ -65,7 +63,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * 
 	 * @param aLogger ロガー
 	 */
-	public void setLogger(final Logger aLogger) {
+	@Override
+	public final void setLogger(final Logger aLogger) {
 		logger = aLogger;
 	}
 
@@ -74,7 +73,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * 
 	 * @param message Message
 	 */
-	protected final void debug(final String message) {
+	@Override
+	public final void debug(final String message) {
 		logger.debug(message);
 	}
 
@@ -83,7 +83,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * 
 	 * @param throwable Throwable
 	 */
-	protected final void debug(final Throwable throwable) {
+	@Override
+	public final void debug(final Throwable throwable) {
 		logger.debug(throwable);
 	}
 
@@ -93,7 +94,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * @param message Message
 	 * @param throwable Throwable
 	 */
-	protected final void debug(final String message, final Throwable throwable) {
+	@Override
+	public final void debug(final String message, final Throwable throwable) {
 		logger.debug(message, throwable);
 	}
 
@@ -102,7 +104,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * 
 	 * @param message Message
 	 */
-	protected final void info(final String message) {
+	@Override
+	public final void info(final String message) {
 		logger.info(message);
 	}
 
@@ -111,7 +114,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * 
 	 * @param throwable Throwable
 	 */
-	protected final void info(final Throwable throwable) {
+	@Override
+	public final void info(final Throwable throwable) {
 		logger.info(throwable);
 	}
 
@@ -121,7 +125,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * @param message Message
 	 * @param throwable Throwable
 	 */
-	protected final void info(final String message, final Throwable throwable) {
+	@Override
+	public final void info(final String message, final Throwable throwable) {
 		logger.info(message, throwable);
 	}
 
@@ -130,7 +135,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * 
 	 * @param message Message
 	 */
-	protected final void warn(final String message) {
+	@Override
+	public final void warn(final String message) {
 		logger.warn(message);
 	}
 
@@ -139,7 +145,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * 
 	 * @param throwable Throwable
 	 */
-	protected final void warn(final Throwable throwable) {
+	@Override
+	public final void warn(final Throwable throwable) {
 		logger.warn(throwable);
 	}
 
@@ -149,7 +156,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * @param message Message
 	 * @param throwable Throwable
 	 */
-	protected final void warn(final String message, final Throwable throwable) {
+	@Override
+	public final void warn(final String message, final Throwable throwable) {
 		logger.warn(message, throwable);
 	}
 
@@ -158,7 +166,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * 
 	 * @param message Message
 	 */
-	protected final void error(final String message) {
+	@Override
+	public final void error(final String message) {
 		logger.error(message);
 	}
 
@@ -167,7 +176,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * 
 	 * @param throwable Throwable
 	 */
-	protected final void error(final Throwable throwable) {
+	@Override
+	public final void error(final Throwable throwable) {
 		logger.error(throwable);
 	}
 
@@ -177,7 +187,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * @param message Message
 	 * @param throwable Throwable
 	 */
-	protected final void error(final String message, final Throwable throwable) {
+	@Override
+	public final void error(final String message, final Throwable throwable) {
 		logger.error(message, throwable);
 	}
 
@@ -186,7 +197,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * 
 	 * @param message Message
 	 */
-	protected final void fatal(final String message) {
+	@Override
+	public final void fatal(final String message) {
 		logger.fatal(message);
 	}
 
@@ -195,7 +207,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * 
 	 * @param throwable Throwable
 	 */
-	protected final void fatal(final Throwable throwable) {
+	@Override
+	public final void fatal(final Throwable throwable) {
 		logger.fatal(throwable);
 	}
 
@@ -205,7 +218,8 @@ public abstract class LoggingObject extends PrimitiveObject implements LoggerSup
 	 * @param message Message
 	 * @param throwable Throwable
 	 */
-	protected final void fatal(final String message, final Throwable throwable) {
+	@Override
+	public final void fatal(final String message, final Throwable throwable) {
 		logger.fatal(message, throwable);
 	}
 }

@@ -17,7 +17,7 @@
  */
 package org.azkfw.store;
 
-import org.azkfw.lang.LoggingObject;
+import org.azkfw.log.LoggingObject;
 
 /**
  * このクラスは、ストア機能の実装を行うための基底クラスです。
